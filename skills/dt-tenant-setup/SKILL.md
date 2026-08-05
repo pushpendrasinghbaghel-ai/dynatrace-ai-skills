@@ -1,7 +1,7 @@
 ---
 name: dt-tenant-setup
 description: "Onboard a new Dynatrace tenant for both dtctl and MCP in one pass. Use when: adding a new Dynatrace tenant/environment, setting up dtctl context for a customer/tenant, connecting a new tenant to the Dynatrace MCP server, 'add entry for tenant X', 'set up dtctl for <name>', 'connect MCP to <tenant>', or any request to onboard/register a Dynatrace environment by tenant ID and nickname."
-argument-hint: "Tenant nickname and tenant ID, e.g. 'acme abc12345' — API token optional if the user already has one"
+argument-hint: "Tenant nickname and tenant ID, e.g. 'HID xqv46417' — API token optional if the user already has one"
 ---
 
 # Dynatrace Tenant Setup (dtctl + MCP)
@@ -10,8 +10,8 @@ End-to-end onboarding for a new Dynatrace tenant: creates a working `dtctl` cont
 
 ## Inputs needed
 
-- **Nickname** — short context name (e.g. `acme`). Ask if not given.
-- **Tenant ID** — the subdomain in `https://<TENANT_ID>.apps.dynatrace.com` (e.g. `abc12345`). Ask if not given.
+- **Nickname** — short context name (e.g. `HID`). Ask if not given.
+- **Tenant ID** — the subdomain in `https://<TENANT_ID>.apps.dynatrace.com` (e.g. `xqv46417`). Ask if not given.
 - **API token** — optional. If the user already has one, use it. Otherwise offer the OAuth browser flow (dtctl) and, separately, a scoped token for MCP (see Phase 2).
 
 Never use placeholder values for any of these — always get the real ones from the user before running commands.
@@ -56,12 +56,12 @@ Ask the user whether they also want this tenant available as an MCP server (`mcp
 
 If yes:
 
-1. If no token exists yet for this tenant, open the tenant's token page so the user can create one without leaving the flow:
-   - Windows: `Start-Process "https://<TENANT_ID>.apps.dynatrace.com/ui/apps/dynatrace.classic.tokens"`
-   - macOS: `open "https://<TENANT_ID>.apps.dynatrace.com/ui/apps/dynatrace.classic.tokens"`
-   - Linux: `xdg-open "https://<TENANT_ID>.apps.dynatrace.com/ui/apps/dynatrace.classic.tokens"`
+1. Do **not** send the user to the classic API-token page. MCP auth follows its own setup — point them at the official guide and open it in the browser so they don't leave the flow:
+   - Windows: `Start-Process "https://docs.dynatrace.com/docs/shortlink/dynatrace-mcp-server#prepare-authentication"`
+   - macOS: `open "https://docs.dynatrace.com/docs/shortlink/dynatrace-mcp-server#prepare-authentication"`
+   - Linux: `xdg-open "https://docs.dynatrace.com/docs/shortlink/dynatrace-mcp-server#prepare-authentication"`
 
-   Tell the user: "Create a token with scopes **Read entities, Read settings, Read SLO** and paste it here." Wait for it — do not proceed with a guessed or reused token unless the user explicitly says to reuse the one from Phase 1.
+   Tell the user: "Follow 'Prepare authentication' in the linked doc. Dynatrace recommends a **Platform token** over an OAuth client, since OAuth-client tokens are short-lived. At minimum the token/client needs `mcp-gateway:servers:invoke` and `mcp-gateway:servers:read`. If they go the OAuth-client route instead (for automatic refresh), it additionally needs `ai:operator:execute`, the `davis-copilot:*` and `storage:*` scope groups, `document:documents:read`, and `davis:analyzers:read` / `davis:analyzers:execute`. Paste the resulting token here when ready." Wait for it — do not proceed with a guessed or reused token unless the user explicitly says to reuse one, and do not assume Phase 1's dtctl token (classic/API-token scoped) is valid for MCP — they are different credential types with different scopes.
 
 2. Read the existing `.mcp.json` at the project root (same directory as this environment's `CLAUDE.md`) and add a new entry keyed by `<nickname>`, preserving every existing entry untouched:
    ```json
