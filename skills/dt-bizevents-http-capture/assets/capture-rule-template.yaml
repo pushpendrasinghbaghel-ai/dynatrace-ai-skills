@@ -1,0 +1,87 @@
+# Capture Rule Template
+# Fill in all <PLACEHOLDER> values before deploying
+
+# objectId: ""          # Add after first deploy to enable updates
+schemaId: builtin:bizevents.http.incoming
+scope: environment
+value:
+  enabled: true
+  ruleName: "<APP_NAME> - <ENDPOINT_DESCRIPTION>"
+  triggers:
+    - caseSensitive: true
+      source:
+        dataSource: request.path
+      type: EQUALS               # Change to CONTAINS if path has parameters after it
+      value: "/your/api/path"
+
+    # Optional: restrict to a specific HTTP method
+    # - caseSensitive: false
+    #   source:
+    #     dataSource: request.method
+    #   type: EQUALS
+    #   value: "POST"
+
+  event:
+    provider:
+      source: "<APP-PROVIDER>"   # e.g. "MY-DMS-APP", "MY-ECOMMERCE"
+      sourceType: constant.string
+    category:
+      source: "<DOMAIN>"         # e.g. "JobCard", "Order", "Payment"
+      sourceType: constant.string
+    type:
+      source: "biz.<domain>.<action>"  # e.g. "biz.jobcard.save", "biz.order.create"
+      sourceType: constant.string
+    data:
+
+      # ── Always include these ──────────────────────────────────────────────
+      - name: "req.path"
+        source:
+          sourceType: request.path
+
+      - name: "http.status"
+        source:
+          sourceType: response.statusCode
+
+      # ── Response body fields ─────────────────────────────────────────────
+      # Uncomment and adjust based on your response shape
+
+      # Standard wrapper: {"statusCode": 200, "statusMessage": "...", "OutputList": ...}
+      - name: "result.code"
+        source:
+          path: "statusCode"           # ← NO $.  prefix!
+          sourceType: response.body
+      - name: "result.message"
+        source:
+          path: "statusMessage"
+          sourceType: response.body
+      - name: "result.data"
+        source:
+          path: "OutputList"           # scalar value (int, string)
+          sourceType: response.body
+
+      # Nested field: {"OutputList": {"ITEM_ID": 123, "ITEM_NAME": "..."}}
+      # - name: "item.id"
+      #   source:
+      #     path: "OutputList.ITEM_ID"
+      #     sourceType: response.body
+
+      # ── Request body fields (POST JSON) ──────────────────────────────────
+      # Only works for application/json content type
+      # - name: "dealer.code"
+      #   source:
+      #     path: "DealerCode"
+      #     sourceType: request.body
+      # - name: "user.id"
+      #   source:
+      #     path: "UserId"
+      #     sourceType: request.body
+      # - name: "branch.id"
+      #   source:
+      #     path: "BranchId"
+      #     sourceType: request.body
+
+      # ── Request headers ───────────────────────────────────────────────────
+      # - name: "correlation.id"
+      #   source:
+      #     path: "X-Correlation-ID"
+      #     sourceType: request.headers

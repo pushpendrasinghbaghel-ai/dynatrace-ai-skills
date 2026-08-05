@@ -1,0 +1,64 @@
+# OpenPipeline Path Enrichment Template
+# Extracts URL path segments as named business fields at ingest time
+# Schema: builtin:openpipeline.bizevents.pipelines
+#
+# Usage:
+#   1. Replace <APP-PROVIDER>, <YOUR_CUSTOM_ID>, path literals
+#   2. Adjust parse pattern to match your URL structure
+#   3. dtctl apply -f openpipeline-path-parser.yaml
+#   4. Add objectId after first deploy
+
+# objectId: ""    # Add after first deploy
+schemaId: builtin:openpipeline.bizevents.pipelines
+scope: environment
+value:
+  customId: <YOUR_CUSTOM_ID>               # e.g. "myapp-path-enrichment" — unique, 4-100 chars
+  displayName: "<App Name> - Path Field Extraction"
+  routing: routable
+  processing:
+    processors:
+
+      # Step 1: Parse URL path into structured fields
+      # URL pattern: /api/{operation}/{branchid}/{dealerid}/{itemid}
+      # Adjust the literal prefix and token types (INT vs LONG) as needed
+      - id: parse-api-path-fields
+        type: dql
+        description: "Extract operation, branchid, dealer_id, item_id from URL path"
+        enabled: true
+        # Matcher: only process events matching your URL pattern
+        # matchesValue regex must pre-filter to paths that WILL parse successfully
+        matcher: "event.provider == \"<APP-PROVIDER>\" and matchesValue(req.path, \"/api/.+/[0-9]+/[0-9]+/[0-9]+\")"
+        dql:
+          # Parse pattern — adjust literals and token names for your URL
+          # Token types: INT (32-bit int), LONG (64-bit int), LD (string, stops at next literal)
+          # Do NOT use FAIL(false) — not supported in OpenPipeline
+          script: "parse req.path, \"'/api/' LD:path.operation '/' INT:path.branchid '/' LONG:path.dealer_id '/' LONG:path.item_id\""
+
+      # Step 2: Promote path.item_id → item.id when body doesn't provide it
+      # Customize event.type filter to only apply where item_id = the business item ID
+      - id: set-item-id-from-path
+        type: dql
+        description: "Set item.id from path when response body does not include it"
+        enabled: true
+        matcher: "event.provider == \"<APP-PROVIDER>\" and isNull(item.id) and isNotNull(path.item_id)"
+        dql:
+          script: "fieldsAdd item.id = toLong(path.item_id)"
+
+      # Step 3: Set dealer from path when body doesn't include it
+      - id: set-dealer-from-path
+        type: dql
+        description: "Set dealer.id from path for events without response-body dealer field"
+        enabled: true
+        matcher: "event.provider == \"<APP-PROVIDER>\" and isNull(dealer.id) and isNotNull(path.dealer_id)"
+        dql:
+          script: "fieldsAdd dealer.id = toLong(path.dealer_id)"
+
+      # Optional Step 4: Handle special cases
+      # Example: for DELETE events, item_id is a different business entity (file ID, not item ID)
+      # - id: set-file-id-for-delete
+      #   type: dql
+      #   description: "Set file.id for delete events where item_id = file ID not item ID"
+      #   enabled: true
+      #   matcher: "event.provider == \"<APP-PROVIDER>\" and event.type == \"biz.domain.file.delete\" and isNotNull(path.item_id)"
+      #   dql:
+      #     script: "fieldsAdd file.id = toLong(path.item_id)"

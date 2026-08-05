@@ -1,0 +1,22 @@
+# IIS Log Monitoring Template
+# Enables IIS W3C access log ingestion for a specific host
+# Schema: builtin:logmonitoring.custom-log-source-settings
+#
+# Usage:
+#   1. Replace HOST-XXXXXXXXXXXXXXXX with actual host entity ID
+#   2. Replace "App Name" with your application name
+#   3. dtctl apply -f iis-log-monitoring.yaml
+
+schemaId: builtin:logmonitoring.custom-log-source-settings
+scope: HOST-XXXXXXXXXXXXXXXX          # e.g. HOST-7AA7B41C864E878F
+value:
+  config-item-title: "<App Name> - IIS Access Logs"   # Must be unique
+  enabled: true
+  custom-log-source:
+    type: LOG_PATH_PATTERN
+    values-and-enrichment:
+      - path: "C:\\inetpub\\logs\\LogFiles\\W3SVC*\\*.log"
+        enrichment:
+          - type: attribute
+            key: "log.source.application"
+            value: "<app-name>-iis"    # e.g. "myapp-iis"

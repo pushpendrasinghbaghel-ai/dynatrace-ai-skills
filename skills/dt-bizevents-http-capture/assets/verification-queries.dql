@@ -1,0 +1,130 @@
+// Verification DQL queries for bizevents capture rules
+// Replace <APP-PROVIDER>, <DOMAIN>, time ranges as needed
+
+// ─────────────────────────────────────────────────────────────
+// 1. RULE FIRING CHECK — Are any bizevents arriving?
+// ─────────────────────────────────────────────────────────────
+
+fetch bizevents, from: now()-30m
+| filter event.provider == "<APP-PROVIDER>"
+| summarize count=count(), by: event.type
+| sort count desc
+
+
+// ─────────────────────────────────────────────────────────────
+// 2. FIELD FILL RATE — Which fields are empty?
+// ─────────────────────────────────────────────────────────────
+
+fetch bizevents, from: now()-1h
+| filter event.provider == "<APP-PROVIDER>"
+| filter event.type == "biz.<domain>.<action>"
+| summarize
+    total         = count(),
+    has_dealer    = countIf(isNotNull(dealer.code)),
+    has_user      = countIf(isNotNull(user.id)),
+    has_item      = countIf(isNotNull(item.id)),
+    has_path      = countIf(isNotNull(req.path)),
+    has_status    = countIf(isNotNull(http.status))
+
+
+// ─────────────────────────────────────────────────────────────
+// 3. SAMPLE EVENTS — Inspect raw captured fields
+// ─────────────────────────────────────────────────────────────
+
+fetch bizevents, from: now()-30m
+| filter event.provider == "<APP-PROVIDER>"
+| filter event.type == "biz.<domain>.<action>"
+| fields timestamp, event.type, req.path, http.status, dealer.code, user.id, item.id
+| sort timestamp desc
+| limit 10
+
+
+// ─────────────────────────────────────────────────────────────
+// 4. PATH PARSING — Extract IDs from req.path at query time
+// ─────────────────────────────────────────────────────────────
+// Use when OpenPipeline enrichment is not available
+// Adjust literal prefix and token types (INT/LONG/LD) for your URL
+
+fetch bizevents, from: now()-1h
+| filter event.provider == "<APP-PROVIDER>"
+| filter event.type == "biz.<domain>.<action>"
+| parse req.path, "'/api/<endpoint>/' INT:path.branchid '/' LONG:path.dealer_id '/' LONG:path.item_id"
+| fields timestamp, req.path, path.branchid, path.dealer_id, path.item_id
+| limit 10
+
+
+// ─────────────────────────────────────────────────────────────
+// 5. VOLUME TREND — Events per hour over last 24 hours
+// ─────────────────────────────────────────────────────────────
+
+fetch bizevents, from: now()-24h
+| filter event.provider == "<APP-PROVIDER>"
+| summarize count=count(), by: bin(timestamp, 1h), event.type
+| sort timestamp asc
+
+
+// ─────────────────────────────────────────────────────────────
+// 6. SUCCESS RATE — For operations with result codes
+// ─────────────────────────────────────────────────────────────
+
+fetch bizevents, from: now()-24h
+| filter event.provider == "<APP-PROVIDER>"
+| filter event.type == "biz.<domain>.<action>"
+| summarize
+    total    = count(),
+    success  = countIf(result.code == 1 or http.status == "200"),
+    failure  = countIf(result.code != 1 or toInt(http.status) >= 400)
+| fieldsAdd success_rate = round(toDouble(success)/toDouble(total)*100, 1)
+
+
+// ─────────────────────────────────────────────────────────────
+// 7. DEALER ACTIVITY — Top dealers by event volume
+// ─────────────────────────────────────────────────────────────
+
+fetch bizevents, from: now()-24h
+| filter event.provider == "<APP-PROVIDER>"
+| filter isNotNull(dealer.code)
+| summarize count=count(), by: dealer.code, event.type
+| sort count desc
+| limit 20
+
+
+// ─────────────────────────────────────────────────────────────
+// 8. FUNNEL — Multi-step flow completion
+// ─────────────────────────────────────────────────────────────
+// Example: create → detail view → share
+// Counts at each stage by day
+
+fetch bizevents, from: now()-7d
+| filter event.provider == "<APP-PROVIDER>"
+| summarize
+    creates   = countIf(event.type == "biz.<domain>.create"),
+    views     = countIf(event.type == "biz.<domain>.detail"),
+    shares    = countIf(event.type == "biz.<domain>.share"),
+    by: bin(timestamp, 1d)
+| sort timestamp asc
+
+
+// ─────────────────────────────────────────────────────────────
+// 9. IIS LOG VERIFICATION — Confirm logs flowing after enabling
+// ─────────────────────────────────────────────────────────────
+
+fetch logs, from: now()-30m
+| filter matchesPhrase(content, "/api/")
+| filter dt.entity.host == "HOST-XXXXXXXXXXXXXXXX"
+| fields timestamp, content
+| sort timestamp desc
+| limit 5
+
+
+// ─────────────────────────────────────────────────────────────
+// 10. OPENPIPELINE ENRICHMENT CHECK — Did path fields get added?
+// ─────────────────────────────────────────────────────────────
+
+fetch bizevents, from: now()-10m
+| filter event.provider == "<APP-PROVIDER>"
+| summarize
+    total       = count(),
+    path_set    = countIf(isNotNull(path.dealer_id)),
+    dealer_set  = countIf(isNotNull(dealer.id)),
+    by: event.type
