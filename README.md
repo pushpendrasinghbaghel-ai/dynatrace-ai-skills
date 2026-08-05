@@ -4,10 +4,30 @@ Reusable [Claude Code skills](https://docs.claude.com/en/docs/claude-code/skills
 
 ## Installation
 
-Copy a skill folder into your `.claude/skills/` directory (project-local or `~/.claude/skills/` for global use):
+### 1. Skills Package (Recommended)
 
 ```bash
-git clone https://github.com/<your-username>/dynatrace-ai-skills.git
+npx skills add pushpendrasinghbaghel-ai/dynatrace-ai-skills
+```
+
+Installs every skill in this repo. To install one specific skill instead:
+
+```bash
+npx skills add pushpendrasinghbaghel-ai/dynatrace-ai-skills --skill dt-tenant-setup
+```
+
+Target Claude Code explicitly with `-a claude-code` if you have multiple agents configured:
+
+```bash
+npx skills add pushpendrasinghbaghel-ai/dynatrace-ai-skills --skill dt-tenant-setup -a claude-code
+```
+
+### 2. Manual Installation
+
+Copy a skill folder directly into your agent's skills path (`.claude/skills/`, `.agents/skills/`, `.cursor/skills/`, etc. — project-local or the user-global equivalent):
+
+```bash
+git clone https://github.com/pushpendrasinghbaghel-ai/dynatrace-ai-skills.git
 cp -r dynatrace-ai-skills/skills/<skill-name> ~/.claude/skills/
 ```
 
