@@ -6,7 +6,7 @@ argument-hint: "AI tool being used (Claude Code, GitHub Copilot/VS Code, VS Code
 
 # AI for Dynatrace App Development Setup
 
-Connects an AI coding assistant to Dynatrace app-development context (Strato Design System components, DQL knowledge base, SDK docs, experience standards) via the `dt-app-mcp` MCP server, plus a project instructions file. Source: https://developer.dynatrace.com/quickstart/app-development-with-ai/
+Connects an AI coding assistant to Dynatrace app-development context (Strato Design System components, DQL knowledge base, SDK docs, experience standards) via the `dt-app-mcp` MCP server, plus a project instructions file. The official [AI for app development](https://developer.dynatrace.com/quickstart/app-development-with-ai/) quickstart is the baseline authority for this workflow; the production lessons below extend it without replacing its setup and verification steps.
 
 This is distinct from the general-purpose [dynatrace-mcp](https://github.com/dynatrace-oss/dynatrace-mcp) server, which queries a live tenant's telemetry (metrics/logs/traces/problems). `dt-app-mcp` is for *building* Dynatrace apps, not investigating environments. Both can be configured together if the user wants both capabilities.
 
@@ -14,6 +14,7 @@ This is distinct from the general-purpose [dynatrace-mcp](https://github.com/dyn
 
 Point the AI assistant (or yourself) at these before building UI, so the app matches the look/structure of real Dynatrace apps instead of inventing its own conventions:
 
+- [AI for app development](https://developer.dynatrace.com/quickstart/app-development-with-ai/) — authoritative setup for `dt-app-mcp`, project instruction files, supported AI-tool configuration, MCP verification prompts, available tools, AI-assisted implementation, code review, and `npx dt-app dev` preview. Re-check this page when setup behavior or supported tools may have changed.
 - [About AppEngine](https://developer.dynatrace.com/plan/about-appengine/) — apps are a React + TypeScript SPA with a serverless TypeScript backend (app functions); logic runs close to Grail data.
 - [About Strato Design System](https://developer.dynatrace.com/design/about-strato-design-system/) — the UI kit: `@dynatrace/strato-components[-preview]`, `@dynatrace/strato-design-tokens`, `@dynatrace/strato-icons`, `@dynatrace/strato-geo`. Run `npx dt-app update` every ~2 weeks to keep these current — Strato ships breaking changes between releases.
 - [Strato Foundations](https://developer.dynatrace.com/design/foundations/) — layout, navigation, interaction states, content guidelines.
@@ -30,6 +31,7 @@ The `get_experience_standard` and `get_strato_component`/`get_strato_usecases` M
 
 ## Prerequisites
 
+- Complete the [Before you begin](https://developer.dynatrace.com/quickstart/first-app-in-5-minutes/#before-you-begin) steps from the official getting-started guide (required by the AI-development quickstart).
 - Node.js/npx available (`dt-app-mcp` runs via `npx`).
 - An app project created via the Dynatrace App Toolkit (`npx dt-app create <name>`) — or an existing app repo.
 - An AI dev tool that supports MCP: Claude Code, GitHub Copilot in VS Code 1.102+ (native MCP support), VS Code + Dynatrace Apps extension, or another MCP-capable tool.
