@@ -1,7 +1,7 @@
 ---
 name: dt-app-dev-ai-setup
-description: "Set up AI-assisted Dynatrace app development using the dt-app-mcp MCP server and CLAUDE.md/AGENTS.md instructions file. Use when: setting up AI for Dynatrace app development, configuring dt-app-mcp, adding CLAUDE.md/AGENTS.md to a Dynatrace app repo, 'vibe coding' a Dynatrace app, connecting Claude Code or VS Code to Dynatrace app dev tools, or troubleshooting why the AI assistant isn't using Strato components/DQL knowledge base correctly."
-argument-hint: "AI tool being used (Claude Code, VS Code + Dynatrace Apps extension, or other), and whether the app is new or existing"
+description: "Set up AI-assisted Dynatrace app development using the dt-app-mcp MCP server and CLAUDE.md/AGENTS.md/copilot-instructions.md instructions file. Works with both Claude Code and GitHub Copilot (VS Code). Use when: setting up AI for Dynatrace app development, configuring dt-app-mcp, adding CLAUDE.md/AGENTS.md/copilot-instructions.md to a Dynatrace app repo, 'vibe coding' a Dynatrace app, connecting Claude Code, GitHub Copilot, or VS Code to Dynatrace app dev tools, or troubleshooting why the AI assistant isn't using Strato components/DQL knowledge base correctly."
+argument-hint: "AI tool being used (Claude Code, GitHub Copilot/VS Code, VS Code + Dynatrace Apps extension, or other), and whether the app is new or existing"
 ---
 
 # AI for Dynatrace App Development Setup
@@ -28,7 +28,7 @@ The `get_experience_standard` and `get_strato_component`/`get_strato_usecases` M
 
 - Node.js/npx available (`dt-app-mcp` runs via `npx`).
 - An app project created via the Dynatrace App Toolkit (`npx dt-app create <name>`) — or an existing app repo.
-- An AI dev tool that supports MCP: Claude Code (recommended), VS Code 1.102+ (for MCP support), or another MCP-capable tool.
+- An AI dev tool that supports MCP: Claude Code, GitHub Copilot in VS Code 1.102+ (native MCP support), VS Code + Dynatrace Apps extension, or another MCP-capable tool.
 
 Ask the user which AI tool they're using and whether the app is new or existing before proceeding.
 
@@ -36,6 +36,7 @@ Ask the user which AI tool they're using and whether the app is new or existing 
 
 - **New apps**: App Toolkit v1.10+ already places `CLAUDE.md` at the project root — verify it exists; nothing to do.
 - **Existing apps**: Create `CLAUDE.md` in the project root and copy the contents from the [AGENTS.md template](https://github.com/Dynatrace/dt-app-templates/blob/main/templates/default/AGENTS.md). If the user's tool expects `AGENTS.md` instead (e.g. OpenAI Codex), name the file `AGENTS.md` instead of `CLAUDE.md`.
+- **GitHub Copilot (VS Code)**: Copilot reads `.github/copilot-instructions.md` (workspace) and/or `AGENTS.md` automatically — it does not read `CLAUDE.md`. Either duplicate the same content into `.github/copilot-instructions.md`, or keep a single `AGENTS.md` and have `CLAUDE.md` be a one-line pointer (`See AGENTS.md`) so both tools share one source of truth without drift.
 
 ## Step 2 — Configure the AI tool
 
@@ -43,7 +44,11 @@ Ask the user which AI tool they're using and whether the app is new or existing 
 ```
 claude mcp add dt-app-mcp -- npx -y dt-app-mcp
 ```
-On Windows, this can fail via PowerShell. If it does, edit `.claude.json` manually instead:
+On Windows (PowerShell), use the `cmd /c` wrapper form directly — this is the reliable one-liner, no manual `.claude.json` editing needed in most cases:
+```
+claude mcp add dt-app-mcp -- cmd /c npx -y dt-app-mcp
+```
+If that still fails, fall back to editing `.claude.json` manually:
 ```json
 {
   "mcpServers": {
@@ -54,10 +59,24 @@ On Windows, this can fail via PowerShell. If it does, edit `.claude.json` manual
   }
 }
 ```
-Verify with `/mcp` inside a Claude Code session — confirm `dt-app-mcp` and its tools show as active.
+Verify with `claude mcp list` — confirm `dt-app-mcp` shows status `connected` (alternatively, `/mcp` inside an active session). This only needs to be run once per machine — it registers in the global Claude Code config and starts automatically with every session; no token or auth needed.
 
 ### VS Code (with Dynatrace Apps extension)
-Install the [Dynatrace Apps extension](https://marketplace.visualstudio.com/items?itemName=dynatrace.dynatrace-apps) — it registers the MCP server automatically via `npx`, no manual config needed.
+Install the [Dynatrace Apps extension](https://marketplace.visualstudio.com/items?itemName=dynatrace.dynatrace-apps) — it registers the MCP server automatically via `npx`, no manual config needed. This works for both Copilot Chat and other VS Code AI extensions, since the extension registers the server at the VS Code level, not per-tool.
+
+### GitHub Copilot (VS Code, without the Dynatrace Apps extension)
+Copilot uses VS Code's native MCP support. Add (or create) `.vscode/mcp.json` in the workspace:
+```json
+{
+  "servers": {
+    "dt-app-mcp": {
+      "command": "npx",
+      "args": ["-y", "dt-app-mcp"]
+    }
+  }
+}
+```
+On Windows, if `npx` isn't resolved directly, use the `cmd /c` wrapper form: `"command": "cmd", "args": ["/c", "npx", "-y", "dt-app-mcp"]`. Reload the window (or run **MCP: List Servers** from the Command Palette) and confirm `dt-app-mcp` shows as running. For a user-level (not workspace-scoped) install, add the same entry via **MCP: Open User Configuration** instead of the workspace file.
 
 ### Other AI tools
 Add an MCP server entry with `command: "npx"`, `args: ["-y", "dt-app-mcp"]` to the tool's MCP config file, then restart the tool. Config file location/format varies by tool — check that tool's docs.
@@ -80,16 +99,18 @@ The assistant should visibly invoke MCP tools (not just answer from general know
 - `list_sdks` — available Dynatrace SDK doc packages
 - `get_sdk` — complete docs for a specific SDK package
 
+Under the hood these give the AI **live** (not guessed/hallucinated) access to: component schemas (every `@dynatrace/strato-components` prop/variant/slot), DQL autocomplete (real entity types, field names, aggregation functions), app manifest rules (required scopes/permissions, `app.config.json` structure), and SDK hooks (`useDqlQuery`, `useEntityList`, etc. with exact signatures). This is why first-pass generated code tends to compile — the model isn't guessing an API surface, it looked it up.
+
 ## Vibe coding an app
 
-Once `dt-app-mcp` is active and `CLAUDE.md`/`AGENTS.md` is in place:
+Once `dt-app-mcp` is active and `CLAUDE.md`/`AGENTS.md`/`.github/copilot-instructions.md` is in place:
 
 1. Scaffold if needed: `npx dt-app create <name>`.
-2. Prompt the AI directly, e.g.: "Fetch all the logs from the past 24 hours and display the timestamp and content in a paginated table."
-3. Use a capable model (Claude Sonnet or Opus) — the MCP tools + instructions file give it enough context to produce a working Strato/DQL implementation without hand-holding.
+2. **Write the opening prompt like a spec, not a one-liner** — name the entity type, the exact signals/data to fetch, the layout, and the interactions (sortable/filterable/etc.). E.g.: "Create a Dynatrace app called Observability Scorecard. Fetch all Services from the tenant and display a table: one row per service, one column per signal type — Metrics, Traces, Logs, Cloud Events, and SLOs. Each cell shows whether that signal is present or absent for that service in the last 24 hours. Use DQL to determine signal presence. The table must be sortable by service name and filterable to show only coverage gaps." The prompt is the design doc — vague first prompts produce vague first drafts.
+3. Use a capable model (Claude Sonnet or Opus in Claude Code; Claude Sonnet or GPT-5 in Copilot Chat) — the MCP tools + instructions file give it enough context to produce a working Strato/DQL implementation without hand-holding.
 4. Preview with `npx dt-app dev`.
 5. **Always review AI-produced code** before accepting — common cleanup: extract inline DQL strings into constants, drop unnecessary `useMemo`, drop default values that match the library default (e.g. `defaultPageIndex={0}`).
-6. **Always validate/execute every DQL query against a real tenant before it lands in app source** — use `verify_dql`/`execute_dql` (or `dtctl query`) to confirm syntax and real field names first. Never hardcode a query into a hook/component that hasn't actually been run; AI-generated field names are frequently wrong or use classic-era naming.
+6. **Always validate/execute every DQL query against a real tenant before it lands in app source** — use `verify_dql`/`execute_dql` (or `dtctl query`) to confirm syntax and real field names first. Never hardcode a query into a hook/component that hasn't actually been run; AI-generated field names are frequently wrong or use classic-era naming. Each table column/signal is typically its own DQL query — validate each one independently.
 
 ## Lessons from real production apps
 
