@@ -183,6 +183,24 @@ Centralizing DQL strings (not inline in component JSX) and formatting/colors in 
 
 *Theming* — never set theme manually on `<AppRoot>`; it handles dark/light automatically. This is exactly why hardcoded colors are the #1 recurring bug: they don't participate in that automatic switch.
 
+**Filtering, search, sort, and pagination — the standard Dynatrace pattern** (from genai-control-center's `FilterBar`/`FilterContext`, used identically across all ~23 pages):
+- Use Strato's own `FilterField` + `TimeframeSelector` (both from `@dynatrace/strato-components[-preview]/filters`) instead of building custom text inputs/dropdowns for filtering — `FilterField` gives free-text filter syntax (`service="x" provider="y"`), auto-suggestions, and a `validatorMap` for per-key operators/allowed values (`keyPredicates: { service: { operators: ['equals','not-equals'], valuePredicate: [...knownServiceNames] } }`). Populate `valuePredicate` from real distinct-value queries (`useDistinctServices`/`useDistinctProviders`/etc.), not hardcoded lists.
+- Build one shared `FilterBar` component wrapping `FilterField` + `TimeframeSelector` + a refresh `Button`, and reuse it on every page — don't reimplement filtering per page. Parse the `FilterField` syntax tree (`onFilter`/`onChange` callbacks give `{ value, syntaxTree, isValid }`) into typed filter values with a small tree-walking function, not string-splitting.
+- Lift filter state to a `FilterContext` (React Context + `useState`, exposing `filters`/`setFilters`/`updateFilter`/`resetFilters`) so timeframe/service/provider/model selections persist as the user navigates between pages — a per-page-only filter state feels broken to users who expect Dynatrace's global filter behavior.
+- Convert display-facing filter values (entity *names*) to entity *IDs* before using them in DQL — build a `Map<entityName, entityId>` from the same distinct-values query used to populate the filter dropdown, and look up the ID right before passing filters into a DQL-query hook. Never filter DQL directly on a user-visible display name if an entity ID is available.
+- Sorting/pagination: use `DataTable`'s own `sortable`/`resizable` props and `<DataTable.Pagination defaultPageSize={N} />` — don't hand-roll click-to-sort header logic or slice arrays manually. Combine with `useMemo` for any *derived* filtered list (e.g. severity tab filters on top of the already-fetched dataset) so re-renders don't re-filter every keystroke.
+
+**Cross-app and cross-entity linking — deep-link into other Dynatrace apps, don't just describe data**: use `getIntentLink` from `@dynatrace-sdk/navigation` to build a URL into another Dynatrace app (Services, Distributed Tracing, Smartscape/Technologies) scoped to a specific entity/trace/timeframe, then `window.open(url, '_blank', 'noopener,noreferrer')`:
+```ts
+import { getIntentLink } from '@dynatrace-sdk/navigation';
+// Jump to a specific service in the Services app
+const url = getIntentLink({ 'dt.entity.service': entityId }, 'dynatrace.services', 'view-service');
+// Jump to a specific trace in Distributed Tracing, with a time window
+const url2 = getIntentLink({ trace_id: traceId, 'dt.timeframe': { from, to } }, 'dynatrace.distributedtracing', 'view-trace');
+window.open(url, '_blank', 'noopener,noreferrer');
+```
+Centralize this in a shared util (e.g. `utils/traceLink.tsx`'s `openTraceInDistributedTraces`/`<TraceLink traceId .../>`) rather than repeating the intent-link boilerplate on every page — build a reasonable default time window around the linked entity (e.g. ±1h around a known timestamp, wider like 72h if no timestamp is available) so the target app doesn't land on an empty view. For entities without a documented intent-link target, a direct Smartscape/Services URL pattern (`/ui/apps/dynatrace.classic.technologies/ui/entity/<entityId>`) also works as a fallback, opened the same way. Always use `target="_blank"` + `rel="noopener noreferrer"` for these external-app links — never navigate away from the app in the same tab.
+
 **MCP data validation — mandatory for every DQL-touching change, not optional QA**: every feature that writes or modifies a DQL query must be validated against a live tenant via MCP (`execute_dql`/`verify_dql`) before it's considered complete — no exceptions except pure styling changes, an already-validated identical query in the same session, or MCP tools genuinely unavailable (and that gap must be documented, not silently skipped). For each result, confirm: records are non-empty, every field the code destructures actually exists, field types match what's unpacked (numbers arrive as numbers, not stringified), `by:` grouping produced the expected dimensions. Common failure modes worth checking for specifically:
 | Symptom | Cause | Fix |
 |---|---|---|
