@@ -39,6 +39,7 @@ Claude Code picks up skills automatically — no restart needed for the skill it
 |---|---|
 | [`dt-tenant-setup`](skills/dt-tenant-setup/SKILL.md) | Onboards a new Dynatrace tenant end-to-end: creates a working `dtctl` context and optionally registers the tenant as an MCP server in `.mcp.json`. |
 | [`dt-bizevents-http-capture`](skills/dt-bizevents-http-capture/SKILL.md) | End-to-end workflow for capturing business events from HTTP APIs monitored by OneAgent — discovery, capture rule YAML, field extraction pitfalls, `dtctl` deployment, OpenPipeline path enrichment, and verification DQL. |
+| [`dt-app-dev-ai-setup`](skills/dt-app-dev-ai-setup/SKILL.md) | Sets up AI-assisted Dynatrace app development: configures the `dt-app-mcp` MCP server and `CLAUDE.md`/`AGENTS.md` instructions file, links official Strato Design System/AppEngine docs, and captures build/runtime, scope, and Strato-compliance lessons distilled from real shipped Dynatrace apps. |
 
 ## Related Projects
 
