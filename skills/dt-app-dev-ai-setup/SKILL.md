@@ -151,19 +151,56 @@ ui/
 ```
 Centralizing DQL strings (not inline in component JSX) and formatting/colors in dedicated files was a recurring refactor in both apps — do it from the start.
 
-**Strato Design System compliance (recurring cleanup pattern)**
-- No raw HTML for structure or status — use Strato components (`Flex`, `MessageContainer`, `DataTable`, etc.), not `<ul>/<li>/<pre>`.
-- **Colors**: no hardcoded colors (`rgba()`, `color: 'white'`, `backgroundColor: 'orange'`) — use CSS variable / design-token status colors from `@dynatrace/strato-design-tokens` so light/dark theme both work automatically.
-- **Icons**: use `@dynatrace/strato-icons` exclusively — never emoji-as-icon, custom SVGs, or third-party icon libraries (Font Awesome, Material Icons, etc.); they won't match Strato's icon grid/weight and won't theme correctly.
-- **Fonts/typography**: use Strato `Text`/`Heading` components and their `textStyle` prop — never a custom `font-family` or inline `font-size`/`line-height` overrides.
-- `Button variant="accent"` is wrong — use `"emphasized"`.
-- Don't fake bold text with `textStyle="*-emphasized"` — use `fontWeight: 600` directly.
+**Strato Design System compliance — treat as mandatory, not a style preference** (verified directly against the production `AGENTS.md` for genai-control-center, which enforces these with zero exceptions):
+
+*No raw HTML* — every structural/interactive element has a Strato replacement, use it:
+| Raw HTML | Strato replacement |
+|---|---|
+| `<div>` | `<Flex>` from `strato-components/layouts` |
+| `<span>` | `<Text>` from `strato-components/typography` |
+| `<button>` | `<Button>` from `strato-components/buttons` |
+| `<input>` | `<TextInput>`/`<NumberInput>` from `strato-components/forms` (exception: hidden `<input type="file">` for uploads) |
+| `<select>` | `<Select>` from `strato-components-preview/forms` |
+| `<table>` | `<DataTable>` from `strato-components-preview/tables` |
+| `<a>` | `<Link>` or `<AppLink>` from `strato-components/typography` |
+
+*Colors* — never hex/`rgb()`/`rgba()` in component styles. Use CSS variables (`var(--dt-colors-text-primary-default)`) or centralized design-token constants (a project-level `design-tokens.ts` with `StatusColors`/`ChartColors`/`EntityColors`/`GradeColors` groupings is the pattern both production apps converged on). The only accepted exception: hex as a `var(--x, #fallback)` fallback, and brand-identity SVG logos (e.g. provider icons) that must render actual brand colors.
+
+*Locale/formatting* — never call `.toLocaleString()`, `.toLocaleDateString()`, `.toLocaleTimeString()`, or `new Intl.NumberFormat()` directly in components. Centralize in one `utils/formatting.ts` (`formatNumber`, `formatDateTime`, `formatDate`, `formatTime`, `formatCurrencyLocalized`, `formatPercent`) so formatting respects the user's Dynatrace regional format/timezone/language via `@dynatrace-sdk/user-preferences` consistently everywhere.
+
+*Component API gotchas that silently break at runtime, not compile time*:
+- `Tabs` use `defaultIndex={0}` (not `defaultValue`); tab items use `title="..."` (not `value`/`label`).
+- `DonutChart`/`PieChart` data must be `{ slices: [...] }`, not a raw array.
+- `TimeseriesChart` datapoints need `{ start: Date, value: number }` — not `{ timestamp: number }`.
+- `DataTable` cell renderers must return JSX (`<Text>...</Text>`), not raw strings.
+- `Flex` `gap` only accepts Strato spacing tokens: `0 | 2 | 4 | 6 | 8 | 12 | 16 | 20 | 24 | 32 | 40 | 48 | 56 | 64` — not arbitrary pixel values.
+- `Button` `variant` is one of `"default" | "emphasized" | "accent"` — there is no `"minimal"` variant.
 - Any list of >20 rows needs real pagination (`DataTable` built-in pagination, e.g. 25/page) — don't hard-cap with `.slice(0, N)`.
+
+*Responsive layout* — never fixed grids like `gridTemplateColumns: 'repeat(2, 1fr)'`; use `repeat(auto-fit, minmax(280px, 1fr))` or `<Flex flexWrap="wrap">` with `flex: '1 1 280px'`. Never `calc(100vh - Xpx)` for height — let Strato `<Page>`/`<Flex>` handle it. Never hardcode pixel widths on containers — use `flex`/`minWidth`/`maxWidth`.
+
+*Imports* — always import from category subdirectories (`strato-components/layouts`, `/typography`, `/tables`, etc.), never the package root — this affects both correctness and bundle size. Check `.d.ts` files directly under `node_modules/@dynatrace/strato-components[-preview]/<category>/<component>/` for the real API — there's no separate `types/` folder. Watch for duplicate imports of the same symbol from both `../utils` and `../utils/formatting` if the project's `utils/index.ts` already re-exports everything as a barrel.
+
+*Theming* — never set theme manually on `<AppRoot>`; it handles dark/light automatically. This is exactly why hardcoded colors are the #1 recurring bug: they don't participate in that automatic switch.
+
+**MCP data validation — mandatory for every DQL-touching change, not optional QA**: every feature that writes or modifies a DQL query must be validated against a live tenant via MCP (`execute_dql`/`verify_dql`) before it's considered complete — no exceptions except pure styling changes, an already-validated identical query in the same session, or MCP tools genuinely unavailable (and that gap must be documented, not silently skipped). For each result, confirm: records are non-empty, every field the code destructures actually exists, field types match what's unpacked (numbers arrive as numbers, not stringified), `by:` grouping produced the expected dimensions. Common failure modes worth checking for specifically:
+| Symptom | Cause | Fix |
+|---|---|---|
+| Silent syntax failure | Missing comma before `by:` in `summarize` | `summarize count(), by: { field }` not `summarize count() by: { field }` |
+| Field is always null | Assumed field doesn't exist (e.g. structured field expected in a raw webhook payload) | Run `fetch bizevents \| filter ... \| limit 1` first, inspect real record shape |
+| Wrong type at runtime | Numeric field returns as a string | Wrap with `Number(...)` in the hook, don't assume type from the query |
+| "No data" in UI despite valid query | Time window too narrow (e.g. last 5 min with sparse data) | Start wide (last 24h), narrow after confirming data exists |
 
 **Security utilities worth building early** (from db-explain-pro, which has dedicated unit tests for these):
 - A DQL sanitizer util if any user input or AI-generated text feeds into a DQL string, to prevent injection.
 - An HTML sanitizer util if AI-generated markdown/HTML is rendered in the UI, to prevent XSS.
 - Both were unit-tested (15 and 14 tests respectively) — worth doing the same for any app that renders AI output.
+
+**Scope and credential hygiene at scale** (from genai-control-center's phased-rollout scope reference doc):
+- Document scopes per-phase/per-feature (a scope → reason → file-that-needs-it table) so scope creep is visible and reviewable, not just a flat list that grows silently.
+- Add a new scope only when the feature that needs it actually ships — never speculatively.
+- If a standalone script/MCP server needs its own API token (separate from the app's platform-token scopes), document its scope list separately and **rotate that token on a schedule** (90 days is a reasonable default) since it isn't covered by the app's own credential lifecycle.
+- Any workflow/automation with real-world side effects (auto-remediation, circuit breakers, failover) should default to `requiresConfirmation: true` and include an explicit rollback condition — don't ship irreversible automation without a human-in-the-loop gate by default.
 
 **Data honesty** — if a metric requires optional data (e.g. BizEvent cost ingestion not present in all tenants) or is estimated rather than measured, show an explicit "NO DATA" / "ESTIMATED" badge rather than silently faking a number. Both apps adopted this after early versions blurred real vs. synthetic data.
 
