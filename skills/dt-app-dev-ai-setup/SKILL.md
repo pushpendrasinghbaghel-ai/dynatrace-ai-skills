@@ -167,6 +167,20 @@ Centralizing DQL strings (not inline in component JSX) and formatting/colors in 
 
 **Data honesty** — if a metric requires optional data (e.g. BizEvent cost ingestion not present in all tenants) or is estimated rather than measured, show an explicit "NO DATA" / "ESTIMATED" badge rather than silently faking a number. Both apps adopted this after early versions blurred real vs. synthetic data.
 
+## Production readiness checklist — before calling an app "done"
+
+Everything above gets an app to a solid, Strato-compliant first draft. That is **not** the same as production-grade / customer-ready. Before releasing an app built with this skill, verify:
+
+- [ ] **Tests exist, not just "worth building"** — unit tests for any DQL/HTML sanitizer, and at minimum smoke tests for each page's data hook. Don't ship security utilities without tests proving they block the attack they're meant to block.
+- [ ] **Every async data fetch handles failure and empty states** — a failed DQL query, a timeout, or zero rows must render a clear message (Strato `MessageContainer`/empty-state pattern), never a blank page or unhandled exception.
+- [ ] **Security review of any AI-generated or user-influenced content path** — prompts, DQL built from user input, and rendered markdown/HTML are injection/XSS surfaces; review or automate-test them explicitly, don't just note the risk.
+- [ ] **Scopes are minimal and reviewed** — re-check `app.config.json` scopes against what's actually used right before release; drop anything added during exploration that didn't ship.
+- [ ] **Query cost is sane at expected data volume** — expensive `fetch spans`/`fetch logs` queries without tight `filter`/time-window scoping will blow Grail budget in a real tenant; test against realistic data volume, not just a demo tenant.
+- [ ] **Accessibility spot-check** — keyboard navigation and screen-reader labels on custom compositions (Strato components are compliant by default, but custom layouts around them can break it).
+- [ ] **Deploy path is deliberate** — a named target environment, and a rollback plan (`npm run deploy` again with the previous commit) — not "whoever runs `npm run deploy` last wins."
+
+This checklist is a floor, not a substitute for a full security/QA pass — for customer-facing releases, run a proper multi-perspective review (security, accessibility, reliability) before shipping.
+
 ## Related
 
 - [Dynatrace Apps for VS Code and Cursor](https://developer.dynatrace.com/quickstart/dynatrace-apps-vscode-extension/)
