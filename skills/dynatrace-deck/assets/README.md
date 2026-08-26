@@ -1,1 +1,13 @@
-﻿# AssetsPlace the Dynatrace corporate template here before first use:    TPLT_Corporate_PPT_2026.potx`scripts/dtdeck.py` and `scripts/brand.py` find it automatically; both alsoaccept an explicit `--template` / `template=` path. Any Dynatrace-branded`.pptx` with a `Blank_black` layout works too.The template is **not** bundled: it is Dynatrace-internal, and this skill ismeant to be shareable. `.gitignore` keeps `assets/*.potx` and `assets/*.pptx`out of version control ΓÇö leave that in place.
+﻿# Assets
+
+Place the Dynatrace corporate template here before first use:
+
+    TPLT_Corporate_PPT_2026.potx
+
+`scripts/dtdeck.py` and `scripts/brand.py` find it automatically; both also
+accept an explicit `--template` / `template=` path. Any Dynatrace-branded
+`.pptx` with a `Blank_black` layout works too.
+
+The template is **not** bundled: it is Dynatrace-internal, and this skill is
+meant to be shareable. `.gitignore` keeps `assets/*.potx` and `assets/*.pptx`
+out of version control ΓÇö leave that in place.

@@ -1,1 +1,4 @@
-﻿assets/*.potxassets/*.pptx__pycache__/*.pyc
+﻿assets/*.potx
+assets/*.pptx
+__pycache__/
+*.pyc
