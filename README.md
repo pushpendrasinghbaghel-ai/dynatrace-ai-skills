@@ -51,6 +51,19 @@ Before each POC, the wrapper should read [agent-skill-manifest.json](C:/Users/pu
 
 As the repo evolves, update the manifest and harness whenever a new skill is added or an existing skill materially changes. The maintenance rule is captured in [skill-maintenance.instructions.md](C:/Users/pushpendra.singhbagh/Desktop/dynatrace-deck.worktrees/comprehensive-agentic-architecture/.github/instructions/skill-maintenance.instructions.md).
 
+### Install the agent wrapper
+
+For a fresh workspace, install the skills repo first, then layer the agent wrapper files on top.
+
+1. Clone or pull this repo so the skills and wrapper files are available locally.
+2. Install the skills pack:
+   ```bash
+   npx skills add pushpendrasinghbaghel-ai/dynatrace-ai-skills
+   ```
+3. For **Claude Code**, make sure [AGENTS.md](C:/Users/pushpendra.singhbagh/Desktop/dynatrace-deck.worktrees/comprehensive-agentic-architecture/AGENTS.md) and [CLAUDE.md](C:/Users/pushpendra.singhbagh/Desktop/dynatrace-deck.worktrees/comprehensive-agentic-architecture/CLAUDE.md) are present in the workspace root.
+4. For **GitHub Copilot**, make sure [copilot-instructions.md](C:/Users/pushpendra.singhbagh/Desktop/dynatrace-deck.worktrees/comprehensive-agentic-architecture/copilot-instructions.md) is present in the workspace root.
+5. Open a new Claude or Copilot session in that workspace so the wrapper instructions are picked up.
+
 ## Public publishing model
 
 Recommended long-term split:
