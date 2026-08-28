@@ -112,6 +112,8 @@ To specifically answer "how deep can this agent go for a customer POC?", run:
 powershell -ExecutionPolicy Bypass -File .\harness\runners\run-poc-depth-tests.ps1
 ```
 
+For the current Dynatrace completeness boundary and the remaining high-value gaps, see [dynatrace-coverage-gap-analysis.md](skills/dt-se-poc-orchestrator/references/dynatrace-coverage-gap-analysis.md).
+
 ## License
 
 MIT

@@ -2,6 +2,8 @@
 
 The official `Dynatrace/dynatrace-for-ai` repo already covers broad observability, security, DQL, migration, and platform basics well.
 
+See [dynatrace-coverage-gap-analysis.md](dynatrace-coverage-gap-analysis.md) for the current documentation-backed completeness boundary.
+
 For SE-led POCs, the largest remaining leverage is **workflow automation + repeatable delivery patterns**.
 
 ## Implemented in this repo
