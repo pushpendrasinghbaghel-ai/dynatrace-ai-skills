@@ -1,0 +1,119 @@
+[
+  {
+    "id": "tenant-setup-has-smoke-test",
+    "skill": "dt-tenant-setup",
+    "requiredPatterns": [
+      "dtctl config set-context",
+      "dtctl query \"fetch dt.entity.host | limit 1\"",
+      "Verification checklist"
+    ]
+  },
+  {
+    "id": "dtctl-ops-has-query-and-apply",
+    "skill": "dtctl-dynatrace-operations",
+    "requiredPatterns": [
+      "dtctl query",
+      "dtctl apply -f",
+      "dtctl config current-context"
+    ]
+  },
+  {
+    "id": "dtctl-admin-has-inventory-and-drift",
+    "skill": "dtctl-tenant-admin",
+    "requiredPatterns": [
+      "tenant-control-plane",
+      "drift check",
+      "Rollback options"
+    ]
+  },
+  {
+    "id": "bizevents-has-deploy-and-verify",
+    "skill": "dt-bizevents-http-capture",
+    "requiredPatterns": [
+      "builtin:bizevents.http.incoming",
+      "dtctl apply -f",
+      "fetch bizevents"
+    ]
+  },
+  {
+    "id": "settings-has-apply-and-rollback",
+    "skill": "dt-settings-as-code-factory",
+    "requiredPatterns": [
+      "dtctl apply -f",
+      "objectId",
+      "Rollback plan"
+    ]
+  },
+  {
+    "id": "alert-lifecycle-has-model-and-routing",
+    "skill": "dt-alert-lifecycle",
+    "requiredPatterns": [
+      "Static threshold",
+      "dtctl apply -f",
+      "routing target"
+    ]
+  },
+  {
+    "id": "openpipeline-has-validation",
+    "skill": "dt-openpipeline-lifecycle",
+    "requiredPatterns": [
+      "OpenPipeline",
+      "ingest-time vs query-time",
+      "Validation patterns"
+    ]
+  },
+  {
+    "id": "readiness-has-signal-checks",
+    "skill": "dt-poc-data-readiness",
+    "requiredPatterns": [
+      "fetch logs",
+      "fetch spans",
+      "readiness-matrix.md"
+    ]
+  },
+  {
+    "id": "custom-log-has-otel-fallback",
+    "skill": "dt-custom-log-ingest",
+    "requiredPatterns": [
+      "OpenTelemetry Collector",
+      "filelog/orders",
+      "custom file-system path"
+    ]
+  },
+  {
+    "id": "otel-readiness-has-correlation",
+    "skill": "dt-otel-poc-readiness",
+    "requiredPatterns": [
+      "OpenTelemetry",
+      "service.name",
+      "fetch spans"
+    ]
+  },
+  {
+    "id": "app-dev-has-doc-and-mcp",
+    "skill": "dt-app-dev-ai-setup",
+    "requiredPatterns": [
+      "dt-app-mcp",
+      "AI for app development",
+      "Strato"
+    ]
+  },
+  {
+    "id": "deck-has-template-and-verify",
+    "skill": "dynatrace-deck",
+    "requiredPatterns": [
+      "TPLT_Corporate_PPT_2026.potx",
+      "scripts/brand.py",
+      "Verify by looking at the slides"
+    ]
+  },
+  {
+    "id": "orchestrator-has-gates",
+    "skill": "dt-se-poc-orchestrator",
+    "requiredPatterns": [
+      "Execution gates",
+      "Token-efficiency rules",
+      "Cross-platform contract"
+    ]
+  }
+]

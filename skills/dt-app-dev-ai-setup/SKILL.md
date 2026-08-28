@@ -10,6 +10,18 @@ Connects an AI coding assistant to Dynatrace app-development context (Strato Des
 
 This is distinct from the general-purpose [dynatrace-mcp](https://github.com/dynatrace-oss/dynatrace-mcp) server, which queries a live tenant's telemetry (metrics/logs/traces/problems). `dt-app-mcp` is for *building* Dynatrace apps, not investigating environments. Both can be configured together if the user wants both capabilities.
 
+## Authoritative references
+
+- [AI for app development](https://developer.dynatrace.com/quickstart/app-development-with-ai/)
+- [About AppEngine](https://developer.dynatrace.com/plan/about-appengine/)
+- [About Strato Design System](https://developer.dynatrace.com/design/about-strato-design-system/)
+- [Dynatrace SDK for TypeScript](https://developer.dynatrace.com/develop/sdks/)
+- [Dynatrace Platform Services](https://developer.dynatrace.com/develop/platform-services/)
+
+## Grounding notes
+
+This skill is primarily doc-grounded: the setup model, tool references, and SDK/Strato/AppEngine guidance come from the official Dynatrace developer documentation below. The production lessons extend those docs with proven delivery heuristics.
+
 ## Official reference docs — read these so new apps look and feel native
 
 Point the AI assistant (or yourself) at these before building UI, so the app matches the look/structure of real Dynatrace apps instead of inventing its own conventions:

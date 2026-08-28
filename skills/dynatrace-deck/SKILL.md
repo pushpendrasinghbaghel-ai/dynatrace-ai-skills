@@ -1,6 +1,7 @@
 ﻿---
 name: dynatrace-deck
 description: Build dark, brand-compliant Dynatrace PowerPoint decks (.pptx) from the corporate template ΓÇö customer solution overviews, RFP responses, POC readouts, architecture and pitch decks. Use this whenever someone asks for a Dynatrace-branded deck, slides, presentation or "PPT" for a customer or internal audience, wants an existing deck rebranded or made brand-compliant, mentions the Dynatrace corporate template / DT Flow / Blank_black layout, or asks for a dense dark "consulting style" deck with stat tiles, bordered panels and requirement-mapping tables. Also use it when a deck must carry the Dynatrace logo lockup, footer and slide numbers correctly, or when a previously generated deck opens with wrong colours, missing logo, or overflowing text.
+argument-hint: "Audience, deck goal, and source content location, e.g. 'Acme CTO, platform modernization POC readout, use requirements in docs/rfp.md'"
 ---
 
 # Dynatrace branded deck builder
@@ -13,6 +14,22 @@ The visual language is deliberately dense: a numbered eyebrow, one declarative
 headline, a short deck paragraph, then bordered panels of arrow bullets, tables
 with status badges, and a strip of four stat tiles. It reads like a consulting
 readout, not a marketing deck.
+
+## Authoritative references
+
+- Corporate template asset described in this skill (`TPLT_Corporate_PPT_2026.potx`).
+- Local design reference: [DESIGN_SYSTEM.md](./references/DESIGN_SYSTEM.md).
+- Local implementation reference: [dtdeck.py](./scripts/dtdeck.py) and [brand.py](./scripts/brand.py).
+
+## Grounding notes
+
+This skill is grounded in Dynatrace brand/template assets and the validated local builder scripts in this repo rather than public product documentation.
+
+## When to Use
+
+- Build a new Dynatrace-branded customer or internal presentation.
+- Rebrand an existing deck to Dynatrace theme and logo/footer conventions.
+- Fix visual issues such as text overflow, wrong colors, or layout collisions before delivery.
 
 ## Before you build: get the content right
 

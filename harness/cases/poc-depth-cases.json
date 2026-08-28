@@ -1,0 +1,98 @@
+[
+  {
+    "id": "baseline-oneagent-se-poc",
+    "title": "Baseline OneAgent POC from tenant credentials to demo assets",
+    "description": "Customer provides tenant URL, token, and success criteria. Agent should onboard the tenant, validate telemetry, deploy required config, and produce demo artifacts.",
+    "requiredCapabilities": [
+      "tenant-onboarding",
+      "dtctl-context",
+      "mcp-registration",
+      "dtctl-admin-operations",
+      "success-criteria-planning",
+      "settings-lifecycle-management",
+      "bizevents-http-capture",
+      "dashboards-authoring",
+      "notebooks-authoring",
+      "cross-signal-observability-analysis",
+      "telemetry-readiness-assessment",
+      "handover-runbook"
+    ]
+  },
+  {
+    "id": "custom-log-path-poc",
+    "title": "POC with application logs available only on custom file-system path",
+    "description": "Customer telemetry relies on application logs written to a non-default location. Agent should account for collection strategy, validation, and correlation with the use case.",
+    "requiredCapabilities": [
+      "tenant-onboarding",
+      "success-criteria-planning",
+      "custom-log-path-ingest",
+      "dql-verification",
+      "cross-signal-observability-analysis",
+      "telemetry-readiness-assessment",
+      "handover-runbook"
+    ]
+  },
+  {
+    "id": "otel-without-oneagent-poc",
+    "title": "POC where OpenTelemetry is primary and OneAgent is not available",
+    "description": "Customer emits logs, traces, and metrics via OpenTelemetry. Agent should shape the POC around OTel signals and avoid OneAgent-only assumptions.",
+    "requiredCapabilities": [
+      "tenant-onboarding",
+      "success-criteria-planning",
+      "otel-only-poc-delivery",
+      "cross-signal-observability-analysis",
+      "dashboards-authoring",
+      "notebooks-authoring",
+      "telemetry-readiness-assessment",
+      "handover-runbook"
+    ]
+  },
+  {
+    "id": "automation-workflow-poc",
+    "title": "POC with agentic workflow and notification automation",
+    "description": "Agent should create automation or notification workflows in addition to dashboards and telemetry validation.",
+    "requiredCapabilities": [
+      "tenant-onboarding",
+      "success-criteria-planning",
+      "workflow-automation",
+      "alerting-and-problem-routing",
+      "dql-execution",
+      "dashboards-authoring",
+      "cross-signal-observability-analysis",
+      "handover-runbook"
+    ]
+  },
+  {
+    "id": "dtctl-admin-poc",
+    "title": "CLI-first POC execution with dtctl",
+    "description": "Agent should use dtctl as the main operational path for tenant verification, DQL queries, and settings deployment instead of relying only on UI or MCP.",
+    "requiredCapabilities": [
+      "tenant-control-plane",
+      "settings-export-import",
+      "bulk-config-changes",
+      "drift-detection",
+      "tenant-audit",
+      "tenant-recovery",
+      "workspace-repeatability",
+      "dtctl-admin-operations",
+      "dtctl-context",
+      "dql-execution",
+      "dtctl-settings-apply",
+      "settings-discovery",
+      "tenant-connectivity-smoke-test"
+    ]
+  },
+  {
+    "id": "openpipeline-enrichment-poc",
+    "title": "POC that depends on ingest-time parsing and enrichment",
+    "description": "Agent should convert raw incoming records into normalized fields through OpenPipeline or deliberately fall back to query-time parsing when the ingest path does not support pipeline enrichment.",
+    "requiredCapabilities": [
+      "tenant-onboarding",
+      "success-criteria-planning",
+      "openpipeline-lifecycle",
+      "parser-enrichment-design",
+      "dql-verification",
+      "handover-runbook"
+    ]
+  }
+]

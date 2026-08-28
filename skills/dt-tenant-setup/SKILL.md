@@ -1,12 +1,21 @@
 ---
 name: dt-tenant-setup
-description: "Onboard a new Dynatrace tenant for both dtctl and MCP in one pass. Use when: adding a new Dynatrace tenant/environment, setting up dtctl context for a customer/tenant, connecting a new tenant to the Dynatrace MCP server, 'add entry for tenant X', 'set up dtctl for <name>', 'connect MCP to <tenant>', or any request to onboard/register a Dynatrace environment by tenant ID and nickname."
+description: "Onboard a new Dynatrace tenant for both dtctl and MCP in one pass. Use when: adding a new Dynatrace tenant/environment, setting up dtctl context for a customer/tenant, connecting a new tenant to the Dynatrace MCP server, adding an entry to mcp json or .mcp.json, validating tenant token scopes for MCP access, 'add entry for tenant X', 'set up dtctl for <name>', 'connect MCP to <tenant>', or any request to onboard/register a Dynatrace environment by tenant ID and nickname."
 argument-hint: "Tenant nickname and tenant ID, e.g. 'HID xqv46417' — API token optional if the user already has one"
 ---
 
 # Dynatrace Tenant Setup (dtctl + MCP)
 
 End-to-end onboarding for a new Dynatrace tenant: creates a working `dtctl` context and, optionally, registers the tenant as an MCP server in `.mcp.json`. This exists so the interview/gotchas below don't have to be rediscovered on every new tenant.
+
+## Authoritative references
+
+- [Dynatrace MCP server docs](https://docs.dynatrace.com/docs/shortlink/dynatrace-mcp-server) — MCP authentication model, connection pattern, and required scopes.
+- [dtctl repository](https://github.com/dynatrace-oss/dtctl) — CLI behavior and command surface used by this workflow.
+
+## Grounding notes
+
+The auth and MCP guidance below is grounded in the official Dynatrace MCP documentation and the `dtctl` CLI's actual command behavior. The sequencing and troubleshooting notes are SE workflow guidance layered on top of those sources.
 
 ## Inputs needed
 
