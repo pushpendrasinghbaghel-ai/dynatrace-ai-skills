@@ -7,28 +7,20 @@ This harness validates whether skills in [skills/](C:/Users/pushpendra.singhbagh
 1. **Static tests** (`run-static-tests.ps1`)
    - Required frontmatter keys exist (`name`, `description`, `argument-hint`)
    - Core skill structure is present (title, usage guidance, authoritative references, and grounding notes)
-2. **Agent wrapper tests** (`run-agent-wrapper-tests.ps1`)
-   - Verifies the cross-platform SE POC agent wrapper files exist and point at the orchestrator
-3. **Agent skill readiness tests** (`run-agent-skill-readiness-tests.ps1`)
-   - Verifies the agent has a manifest of required skills and that wrapper files instruct the agent to check skills before execution
-4. **Agent skill sync tests** (`run-agent-skill-sync-tests.ps1`)
-   - Verifies every local skill in `skills/` is represented in the agent manifest so new skills are not forgotten
-5. **Routing tests** (`run-routing-tests.ps1`)
+2. **Routing tests** (`run-routing-tests.ps1`)
    - A prompt should route to expected skill(s)
    - A prompt should avoid forbidden skill(s)
-6. **Outcome tests** (`run-outcome-tests.ps1`)
+3. **Outcome tests** (`run-outcome-tests.ps1`)
    - Skill instructions contain expected capability markers for that skill's job
-7. **POC depth tests** (`run-poc-depth-tests.ps1`)
+4. **POC depth tests** (`run-poc-depth-tests.ps1`)
    - Measures how much of a real customer POC flow is covered by the current skill set
    - Highlights missing capabilities and recommended next skills
-   - Counts both local skills and upstream skills declared available in [agent-skill-manifest.json](C:/Users/pushpendra.singhbagh/Desktop/dynatrace-deck.worktrees/comprehensive-agentic-architecture/agent-skill-manifest.json)
 
 ## Folder layout
 
 ```text
 harness/
   cases/
-    agent-wrapper-cases.json
     routing-cases.json
     outcome-cases.json
     poc-depth-cases.json
@@ -38,9 +30,6 @@ harness/
   runners/
     run-all.ps1
     run-static-tests.ps1
-    run-agent-wrapper-tests.ps1
-    run-agent-skill-readiness-tests.ps1
-    run-agent-skill-sync-tests.ps1
     run-routing-tests.ps1
     run-outcome-tests.ps1
     run-poc-depth-tests.ps1
@@ -58,9 +47,6 @@ Or run individual suites:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\harness\runners\run-static-tests.ps1
-powershell -ExecutionPolicy Bypass -File .\harness\runners\run-agent-wrapper-tests.ps1
-powershell -ExecutionPolicy Bypass -File .\harness\runners\run-agent-skill-readiness-tests.ps1
-powershell -ExecutionPolicy Bypass -File .\harness\runners\run-agent-skill-sync-tests.ps1
 powershell -ExecutionPolicy Bypass -File .\harness\runners\run-routing-tests.ps1
 powershell -ExecutionPolicy Bypass -File .\harness\runners\run-outcome-tests.ps1
 powershell -ExecutionPolicy Bypass -File .\harness\runners\run-poc-depth-tests.ps1
@@ -85,8 +71,7 @@ The report answers:
 - Can it cover dashboards, notebooks, and settings lifecycle?
 - Can it handle customer variants like custom log paths or OpenTelemetry-first environments?
 - Which missing capabilities should be filled by upstream skills vs new complementary skills?
-- Does the repo include a real cross-platform SE POC agent wrapper, not just individual skills?
-- Are upstream visualization skills declared in the manifest so the agent can treat them as part of the installed capability set?
+- Does the skill set cover the requested POC flow without relying on wrapper files?
 
 ## Grounding policy
 

@@ -18,14 +18,6 @@ New-Item -ItemType Directory -Path $reportsRoot -Force | Out-Null
 $cases = Get-Content -Path $casesPath -Raw | ConvertFrom-Json
 $skillCapabilities = Get-Content -Path $skillCapabilitiesPath -Raw | ConvertFrom-Json
 $recommendations = Get-Content -Path $recommendationsPath -Raw | ConvertFrom-Json
-$agentManifestPath = Join-Path $RepoRoot "agent-skill-manifest.json"
-
-if (-not (Test-Path $agentManifestPath)) {
-    throw "Missing agent skill manifest: $agentManifestPath"
-}
-
-$agentManifest = Get-Content -Path $agentManifestPath -Raw | ConvertFrom-Json
-$availableUpstreamSkills = @($agentManifest.upstreamSkills | ForEach-Object { $_.name })
 
 $capabilityOwners = @{}
 foreach ($entry in $skillCapabilities) {
@@ -62,13 +54,7 @@ foreach ($case in $cases) {
                 $recommendationSource = $recommendationIndex[$capability].source
             }
 
-            $availableRecommended = @($recommendedSkills | Where-Object { $availableUpstreamSkills -contains $_ })
-            if ($availableRecommended.Count -gt 0) {
-                $owningSkills = @($availableRecommended | Sort-Object -Unique)
-                $coveredCapabilities += $capability
-            } else {
-                $missingCapabilities += $capability
-            }
+            $missingCapabilities += $capability
         }
 
         $recommendedSkills = @()
