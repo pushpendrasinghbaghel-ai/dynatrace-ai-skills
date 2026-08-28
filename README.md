@@ -35,15 +35,11 @@ Claude Code picks up skills automatically — no restart needed for the skill it
 
 ## SE POC agent wrapper
 
-This repo now includes a reusable cross-platform **Dynatrace SE POC agent** wrapper:
+The reusable **Dynatrace SE POC agent** now lives in the separate repo:
 
-- [AGENTS.md](C:/Users/pushpendra.singhbagh/Desktop/dynatrace-deck.worktrees/comprehensive-agentic-architecture/AGENTS.md)
-- [CLAUDE.md](C:/Users/pushpendra.singhbagh/Desktop/dynatrace-deck.worktrees/comprehensive-agentic-architecture/CLAUDE.md)
-- [copilot-instructions.md](C:/Users/pushpendra.singhbagh/Desktop/dynatrace-deck.worktrees/comprehensive-agentic-architecture/copilot-instructions.md)
-- [dynatrace-se-poc-agent.prompt.md](C:/Users/pushpendra.singhbagh/Desktop/dynatrace-deck.worktrees/comprehensive-agentic-architecture/prompts/dynatrace-se-poc-agent.prompt.md)
-- [agent-skill-manifest.json](C:/Users/pushpendra.singhbagh/Desktop/dynatrace-deck.worktrees/comprehensive-agentic-architecture/agent-skill-manifest.json)
+- [dynatrace-se-poc-agent](https://github.com/pushpendrasinghbaghel-ai/dynatrace-se-poc-agent)
 
-Use these to package the skills in this repo into a real named agent/persona for Claude, GitHub Copilot, and Gemini-style prompt flows.
+Use that repo to package the skills in this repo into a real named agent/persona for Claude, GitHub Copilot, and Gemini-style prompt flows.
 
 For deeper tenant-control work, use [dtctl-tenant-admin](C:/Users/pushpendra.singhbagh/Desktop/dynatrace-deck.worktrees/comprehensive-agentic-architecture/skills/dtctl-tenant-admin/SKILL.md); for quick CLI work, use [dtctl-dynatrace-operations](C:/Users/pushpendra.singhbagh/Desktop/dynatrace-deck.worktrees/comprehensive-agentic-architecture/skills/dtctl-dynatrace-operations/SKILL.md).
 
