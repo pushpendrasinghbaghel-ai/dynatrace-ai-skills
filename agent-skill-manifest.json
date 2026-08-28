@@ -1,0 +1,38 @@
+{
+  "agent": "dynatrace-se-poc-agent",
+  "skillReadinessPolicy": {
+    "requiredBeforeEachPoc": true,
+    "goal": "Ensure the agent can discover all required skills for the current lane and that the skill pack is not stale before executing customer changes.",
+    "updateGuidance": [
+      "Confirm required local skills are present in the current agent environment.",
+      "Confirm any needed upstream Dynatrace skills are installed and available before the POC lane that needs them starts.",
+      "If the skill set may be stale, refresh the installed skills from the source repo before starting or continue only with the skills confirmed present."
+    ]
+  },
+  "localSkills": [
+    { "name": "dt-se-poc-orchestrator", "requiredFor": ["all"], "path": "skills\\dt-se-poc-orchestrator\\SKILL.md" },
+    { "name": "dt-tenant-setup", "requiredFor": ["environment"], "path": "skills\\dt-tenant-setup\\SKILL.md" },
+    { "name": "dtctl-tenant-admin", "requiredFor": ["environment", "configuration", "validation"], "path": "skills\\dtctl-tenant-admin\\SKILL.md" },
+    { "name": "dtctl-dynatrace-operations", "requiredFor": ["environment", "validation"], "path": "skills\\dtctl-dynatrace-operations\\SKILL.md" },
+    { "name": "dt-settings-as-code-factory", "requiredFor": ["configuration"], "path": "skills\\dt-settings-as-code-factory\\SKILL.md" },
+    { "name": "dt-alert-lifecycle", "requiredFor": ["configuration", "validation"], "path": "skills\\dt-alert-lifecycle\\SKILL.md" },
+    { "name": "dt-bizevents-http-capture", "requiredFor": ["ingestion"], "path": "skills\\dt-bizevents-http-capture\\SKILL.md" },
+    { "name": "dt-openpipeline-lifecycle", "requiredFor": ["ingestion"], "path": "skills\\dt-openpipeline-lifecycle\\SKILL.md" },
+    { "name": "dt-custom-log-ingest", "requiredFor": ["ingestion"], "path": "skills\\dt-custom-log-ingest\\SKILL.md" },
+    { "name": "dt-poc-data-readiness", "requiredFor": ["validation"], "path": "skills\\dt-poc-data-readiness\\SKILL.md" },
+    { "name": "dt-otel-poc-readiness", "requiredFor": ["validation"], "path": "skills\\dt-otel-poc-readiness\\SKILL.md" },
+    { "name": "dt-app-dev-ai-setup", "requiredFor": ["app-development"], "path": "skills\\dt-app-dev-ai-setup\\SKILL.md" },
+    { "name": "dynatrace-deck", "requiredFor": ["packaging"], "path": "skills\\dynatrace-deck\\SKILL.md" }
+  ],
+  "upstreamSkills": [
+    { "name": "dt-app-dashboards", "requiredFor": ["visualization"], "sourceRepo": "Dynatrace/dynatrace-for-ai" },
+    { "name": "dt-app-notebooks", "requiredFor": ["visualization"], "sourceRepo": "Dynatrace/dynatrace-for-ai" },
+    { "name": "dt-dql-essentials", "requiredFor": ["validation"], "sourceRepo": "Dynatrace/dynatrace-for-ai" },
+    { "name": "dt-alerting", "requiredFor": ["configuration", "validation"], "sourceRepo": "Dynatrace/dynatrace-for-ai" },
+    { "name": "dt-obs-services", "requiredFor": ["validation"], "sourceRepo": "Dynatrace/dynatrace-for-ai" },
+    { "name": "dt-obs-logs", "requiredFor": ["validation"], "sourceRepo": "Dynatrace/dynatrace-for-ai" },
+    { "name": "dt-obs-tracing", "requiredFor": ["validation"], "sourceRepo": "Dynatrace/dynatrace-for-ai" },
+    { "name": "dt-obs-hosts", "requiredFor": ["validation"], "sourceRepo": "Dynatrace/dynatrace-for-ai" },
+    { "name": "dt-obs-problems", "requiredFor": ["validation"], "sourceRepo": "Dynatrace/dynatrace-for-ai" }
+  ]
+}

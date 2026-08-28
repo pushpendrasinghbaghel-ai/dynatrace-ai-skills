@@ -1,0 +1,132 @@
+[
+  {
+    "skill": "dt-tenant-setup",
+    "capabilities": [
+      "tenant-onboarding",
+      "dtctl-context",
+      "mcp-registration",
+      "oauth-authentication",
+      "api-token-authentication",
+      "tenant-connectivity-smoke-test"
+    ]
+  },
+  {
+    "skill": "dtctl-tenant-admin",
+    "capabilities": [
+      "tenant-control-plane",
+      "settings-export-import",
+      "bulk-config-changes",
+      "drift-detection",
+      "tenant-audit",
+      "tenant-recovery",
+      "workspace-repeatability",
+      "dql-execution"
+    ]
+  },
+  {
+    "skill": "dtctl-dynatrace-operations",
+    "capabilities": [
+      "dtctl-admin-operations",
+      "dql-execution",
+      "dtctl-context",
+      "dtctl-settings-apply",
+      "settings-discovery",
+      "tenant-connectivity-smoke-test"
+    ]
+  },
+  {
+    "skill": "dt-bizevents-http-capture",
+    "capabilities": [
+      "bizevents-http-capture",
+      "capture-rule-yaml",
+      "dtctl-settings-apply",
+      "dql-verification",
+      "field-fill-rate-validation",
+      "openpipeline-path-enrichment",
+      "query-time-path-parsing",
+      "custom-iis-log-correlation",
+      "oneagent-http-telemetry"
+    ]
+  },
+  {
+    "skill": "dt-settings-as-code-factory",
+    "capabilities": [
+      "settings-lifecycle-management",
+      "dtctl-settings-apply",
+      "settings-object-id-tracking",
+      "settings-rollback-guidance"
+    ]
+  },
+  {
+    "skill": "dt-openpipeline-lifecycle",
+    "capabilities": [
+      "openpipeline-lifecycle",
+      "openpipeline-path-enrichment",
+      "parser-enrichment-design",
+      "query-time-path-parsing"
+    ]
+  },
+  {
+    "skill": "dt-poc-data-readiness",
+    "capabilities": [
+      "telemetry-readiness-assessment",
+      "cross-signal-observability-analysis",
+      "success-criteria-evidence-mapping",
+      "dql-execution"
+    ]
+  },
+  {
+    "skill": "dt-alert-lifecycle",
+    "capabilities": [
+      "workflow-automation",
+      "alerting-and-problem-routing",
+      "alert-settings-lifecycle",
+      "notification-route-validation"
+    ]
+  },
+  {
+    "skill": "dt-custom-log-ingest",
+    "capabilities": [
+      "custom-log-path-ingest",
+      "custom-log-otel-fallback"
+    ]
+  },
+  {
+    "skill": "dt-otel-poc-readiness",
+    "capabilities": [
+      "otel-only-poc-delivery",
+      "otel-resource-attribute-validation",
+      "mixed-telemetry-poc-planning"
+    ]
+  },
+  {
+    "skill": "dt-app-dev-ai-setup",
+    "capabilities": [
+      "dt-app-mcp-setup",
+      "strato-guidance",
+      "appengine-guidance",
+      "sdk-scope-hygiene",
+      "app-function-guidance"
+    ]
+  },
+  {
+    "skill": "dynatrace-deck",
+    "capabilities": [
+      "poc-readout-deck",
+      "brand-compliant-storytelling",
+      "slide-qa"
+    ]
+  },
+  {
+    "skill": "dt-se-poc-orchestrator",
+    "capabilities": [
+      "poc-intake",
+      "success-criteria-planning",
+      "subagent-orchestration",
+      "quality-gates",
+      "artifact-structure",
+      "handover-runbook",
+      "token-efficiency"
+    ]
+  }
+]

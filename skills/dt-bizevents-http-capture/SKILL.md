@@ -8,6 +8,16 @@ argument-hint: "Service name or API path prefix, e.g. 'my-app /api/JobCard'"
 
 End-to-end workflow for capturing business events from HTTP APIs monitored by OneAgent — from discovery through deployment, enrichment, and verification.
 
+## Authoritative references
+
+- [OpenPipeline](https://docs.dynatrace.com/docs/platform/openpipeline) — supported ingest-time processing model and pipeline concepts.
+- [OpenTelemetry and Dynatrace](https://docs.dynatrace.com/docs/ingest-from/opentelemetry) — ingest-path context and collector-based alternatives when OneAgent assumptions do not hold.
+- Internal repo references: [capture-rule-anatomy.md](./references/capture-rule-anatomy.md), [openpipeline-enrichment.md](./references/openpipeline-enrichment.md), and [log-monitoring-setup.md](./references/log-monitoring-setup.md).
+
+## Grounding notes
+
+The product concepts are grounded in Dynatrace documentation; the capture-rule patterns, pitfalls, and verification flow are grounded in validated field usage captured in this repo.
+
 ## When to Use
 
 - Setting up `builtin:bizevents.http.incoming` capture rules for new APIs

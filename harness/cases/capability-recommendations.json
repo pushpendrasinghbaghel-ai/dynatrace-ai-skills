@@ -1,0 +1,97 @@
+[
+  {
+    "capability": "dashboards-authoring",
+    "recommendedSkills": ["dt-app-dashboards"],
+    "source": "upstream"
+  },
+  {
+    "capability": "notebooks-authoring",
+    "recommendedSkills": ["dt-app-notebooks"],
+    "source": "upstream"
+  },
+  {
+    "capability": "cross-signal-observability-analysis",
+    "recommendedSkills": ["dt-obs-services", "dt-obs-logs", "dt-obs-tracing", "dt-obs-hosts", "dt-obs-problems"],
+    "source": "upstream"
+  },
+  {
+    "capability": "alerting-and-problem-routing",
+    "recommendedSkills": ["dt-alert-lifecycle", "dt-alerting"],
+    "source": "local"
+  },
+  {
+    "capability": "workflow-automation",
+    "recommendedSkills": ["dt-alert-lifecycle", "dt-workflow-notification-factory"],
+    "source": "local"
+  },
+  {
+    "capability": "dql-execution",
+    "recommendedSkills": ["dtctl-dynatrace-operations"],
+    "source": "local"
+  },
+  {
+    "capability": "dtctl-admin-operations",
+    "recommendedSkills": ["dtctl-dynatrace-operations"],
+    "source": "local"
+  },
+  {
+    "capability": "tenant-control-plane",
+    "recommendedSkills": ["dtctl-tenant-admin"],
+    "source": "local"
+  },
+  {
+    "capability": "settings-export-import",
+    "recommendedSkills": ["dtctl-tenant-admin"],
+    "source": "local"
+  },
+  {
+    "capability": "bulk-config-changes",
+    "recommendedSkills": ["dtctl-tenant-admin"],
+    "source": "local"
+  },
+  {
+    "capability": "drift-detection",
+    "recommendedSkills": ["dtctl-tenant-admin"],
+    "source": "local"
+  },
+  {
+    "capability": "tenant-audit",
+    "recommendedSkills": ["dtctl-tenant-admin"],
+    "source": "local"
+  },
+  {
+    "capability": "tenant-recovery",
+    "recommendedSkills": ["dtctl-tenant-admin"],
+    "source": "local"
+  },
+  {
+    "capability": "workspace-repeatability",
+    "recommendedSkills": ["dtctl-tenant-admin"],
+    "source": "local"
+  },
+  {
+    "capability": "settings-lifecycle-management",
+    "recommendedSkills": ["dt-settings-as-code-factory"],
+    "source": "local"
+  },
+  {
+    "capability": "openpipeline-lifecycle",
+    "recommendedSkills": ["dt-openpipeline-lifecycle"],
+    "source": "local"
+  },
+  {
+    "capability": "custom-log-path-ingest",
+    "recommendedSkills": ["dt-custom-log-ingest"],
+    "source": "local"
+  },
+  {
+    "capability": "otel-only-poc-delivery",
+    "recommendedSkills": ["dt-otel-poc-readiness"],
+    "source": "local"
+  },
+  {
+    "capability": "telemetry-readiness-assessment",
+    "recommendedSkills": ["dt-poc-data-readiness"],
+    "source": "local"
+  }
+]

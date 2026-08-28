@@ -1,0 +1,110 @@
+[
+  {
+    "id": "tenant-onboarding-dtctl-mcp",
+    "prompt": "Set up a new customer tenant in dtctl and add it to mcp json with proper token scopes",
+    "expectedSkills": ["dt-tenant-setup"],
+    "forbiddenSkills": ["dt-bizevents-http-capture"]
+  },
+  {
+    "id": "bizevents-capture-save-endpoint",
+    "prompt": "Create builtin bizevents incoming capture rule for POST /wip/JobCard/Save and verify fields in dql",
+    "expectedSkills": ["dt-bizevents-http-capture"],
+    "forbiddenSkills": ["dt-tenant-setup"]
+  },
+  {
+    "id": "dtctl-query-and-apply",
+    "prompt": "Use dtctl to switch context, run a dql query, and apply settings yaml safely",
+    "expectedSkills": ["dtctl-dynatrace-operations"],
+    "forbiddenSkills": ["dynatrace-deck"]
+  },
+  {
+    "id": "dtctl-deep-tenant-admin",
+    "prompt": "I need dtctl to inventory the tenant, export settings, check drift, do bulk config changes, and keep rollback ready",
+    "expectedSkills": ["dtctl-tenant-admin"],
+    "forbiddenSkills": ["dynatrace-deck"]
+  },
+  {
+    "id": "app-dev-mcp-setup",
+    "prompt": "Configure dt-app-mcp and project instructions for copilot and claude app development",
+    "expectedSkills": ["dt-app-dev-ai-setup"],
+    "forbiddenSkills": ["dt-bizevents-http-capture"]
+  },
+  {
+    "id": "presentation-build",
+    "prompt": "Create a brand compliant dynatrace dark consulting style ppt deck from template",
+    "expectedSkills": ["dynatrace-deck"],
+    "forbiddenSkills": ["dt-tenant-setup"]
+  },
+  {
+    "id": "poc-orchestration",
+    "prompt": "Orchestrate a full SE poc with settings as code ingestion dashboards validation and handover across copilot claude and gemini",
+    "expectedSkills": ["dt-se-poc-orchestrator"],
+    "forbiddenSkills": ["dynatrace-deck"]
+  },
+  {
+    "id": "mcp-vs-dtctl-onboarding",
+    "prompt": "Connect tenant xqv46417 and authenticate using oauth flow then test fetch dt entity host query",
+    "expectedSkills": ["dt-tenant-setup"],
+    "forbiddenSkills": ["dt-app-dev-ai-setup"]
+  },
+  {
+    "id": "openpipeline-path-enrichment",
+    "prompt": "Need path parsing for dealer id from req path and openpipeline yaml with verification dql for incoming business events",
+    "expectedSkills": ["dt-bizevents-http-capture"],
+    "forbiddenSkills": ["dynatrace-deck"]
+  },
+  {
+    "id": "settings-promotion-yaml",
+    "prompt": "Create dynatrace settings yaml, preserve objectId, deploy with dtctl apply and keep rollback instructions",
+    "expectedSkills": ["dt-settings-as-code-factory"],
+    "forbiddenSkills": ["dynatrace-deck"]
+  },
+  {
+    "id": "alert-detector-routing",
+    "prompt": "Create an alert for checkout failure spikes, choose the right threshold model, route to slack workflow, and keep rollback safe",
+    "expectedSkills": ["dt-alert-lifecycle"],
+    "forbiddenSkills": ["dynatrace-deck"]
+  },
+  {
+    "id": "openpipeline-parser-rollout",
+    "prompt": "Design openpipeline processor config, choose ingest time versus query time parsing, and validate derived fields",
+    "expectedSkills": ["dt-openpipeline-lifecycle"],
+    "forbiddenSkills": ["dt-tenant-setup"]
+  },
+  {
+    "id": "poc-readiness-check",
+    "prompt": "Assess if this tenant is ready for a poc by checking logs traces metrics and business events against success criteria",
+    "expectedSkills": ["dt-poc-data-readiness"],
+    "forbiddenSkills": ["dynatrace-deck"]
+  },
+  {
+    "id": "custom-log-path-on-windows",
+    "prompt": "Application logs are on D:\\Acme\\logs\\orders\\*.log and may need oneagent or otel collector fallback ingest",
+    "expectedSkills": ["dt-custom-log-ingest"],
+    "forbiddenSkills": ["dt-bizevents-http-capture"]
+  },
+  {
+    "id": "otel-first-tenant",
+    "prompt": "Plan this poc for an opentelemetry first tenant where traces logs and metrics come from otel and oneagent is partial",
+    "expectedSkills": ["dt-otel-poc-readiness"],
+    "forbiddenSkills": ["dt-tenant-setup"]
+  },
+  {
+    "id": "strato-guidance",
+    "prompt": "Need strato design system components appengine guidance and sdk scope hygiene for a new dynatrace app",
+    "expectedSkills": ["dt-app-dev-ai-setup"],
+    "forbiddenSkills": ["dt-tenant-setup"]
+  },
+  {
+    "id": "deck-overflow-fix",
+    "prompt": "Slide text overflows footer band and logo color is wrong in powerpoint rebrand this deck",
+    "expectedSkills": ["dynatrace-deck"],
+    "forbiddenSkills": ["dt-bizevents-http-capture"]
+  },
+  {
+    "id": "repeatable-poc-factory",
+    "prompt": "Build repeatable poc factory with quality gates token saving and sub agent lanes for environment ingestion visuals",
+    "expectedSkills": ["dt-se-poc-orchestrator"],
+    "forbiddenSkills": ["dt-app-dev-ai-setup"]
+  }
+]
