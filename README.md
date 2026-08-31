@@ -184,13 +184,18 @@ clean on those checks:
   captured bizevent field — `dt-bizevents-http-capture` only demonstrates non-sensitive
   correlation headers and explicitly warns against capturing auth headers.
 - `dt-tenant-setup` treats API tokens as ephemeral: never echoed back in chat, never written
-  anywhere except the single `.mcp.json` entry that needs them, and never logged.
+  anywhere except the single `.mcp.json` entry or `dtctl`'s own credential store, and never
+  logged.
+- `--token <TOKEN>`-style CLI arguments (`dtctl config set-credentials`) carry a warning in
+  `dt-tenant-setup` and `dtctl-dynatrace-operations` to prefer an interactive prompt or
+  environment variable over a literal command-line value, since CLI args land in shell history
+  and the process list.
 - Placeholder secrets in examples use `TOKEN`/`YOUR_TOKEN`/`******` style syntax, never a
   realistic-looking key that could be mistaken for a real credential or trigger a false-positive
   secret scan.
 
 If you add a new skill, keep to these constraints and avoid introducing install-time remote
-code execution or secret-handling shortcuts — they are the two patterns skill-marketplace risk
+code execution or secret-handling shortcuts — they are the patterns skill-marketplace risk
 scanners flag hardest.
 
 ## Contributing

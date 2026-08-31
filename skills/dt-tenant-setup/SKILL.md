@@ -28,6 +28,12 @@ The auth and MCP guidance below is grounded in the official Dynatrace MCP docume
 
 Never use placeholder values for any of these — always get the real ones from the user before running commands.
 
+**Handling the API token/credential:** treat it as a live secret for the whole workflow —
+never echo it back in chat once used, never write it to a log, scratch file, commit, or any
+location besides `dtctl`'s own credential store (Phase 1) or the single `.mcp.json` entry that
+needs it (Phase 2), and prefer entering it at an interactive prompt over passing it as a
+plaintext CLI argument where it would land in shell history.
+
 ## Phase 1 — dtctl context
 
 1. Confirm the CLI is present: `dtctl version`. If missing, install per platform (review the
@@ -54,6 +60,13 @@ Never use placeholder values for any of these — always get the real ones from 
    dtctl config set-context <nickname> --environment https://<TENANT_ID>.apps.dynatrace.com --token-ref <nickname>
    ```
    The second command is not optional — without `--token-ref` pointing at the stored credential name, the context has no way to find the token and queries fail with `token "" not found`.
+
+   **Security note:** passing `--token <TOKEN>` on the command line puts the raw credential in
+   shell history and the process list. Prefer running `set-credentials` interactively at a
+   prompt (so the token is typed/pasted directly, not retained in scrollback), or export it as
+   an environment variable and reference that variable rather than pasting the literal value
+   into chat or a saved command. Never write the token to any file outside `dtctl`'s own
+   credential store.
 
    **B. No token supplied — OAuth flow:**
    ```

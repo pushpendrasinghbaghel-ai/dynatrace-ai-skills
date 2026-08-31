@@ -59,6 +59,10 @@ dtctl config set-credentials <nickname> --token <TOKEN>
 dtctl config set-context <nickname> --environment https://<TENANT_ID>.apps.dynatrace.com --token-ref <nickname>
 ```
 
+> Prefer entering the token at an interactive prompt rather than pasting it as a literal CLI
+> argument — `--token <TOKEN>` on the command line lands in shell history and the process list.
+> Never write the token anywhere outside `dtctl`'s own credential store.
+
 Or use the OAuth browser flow:
 
 ```bash
