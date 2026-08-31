@@ -157,16 +157,23 @@ data:
 ### Request headers
 
 ```yaml
-  - name: "auth.token"
-    source:
-      path: "Authorization"        # Header name (case-insensitive)
-      sourceType: request.headers
-
   - name: "correlation.id"
     source:
       path: "X-Correlation-ID"
       sourceType: request.headers
+
+  - name: "client.app.version"
+    source:
+      path: "X-App-Version"
+      sourceType: request.headers
 ```
+
+> **Never capture `Authorization`, `Cookie`, `X-Api-Key`, or any other credential-bearing
+> header into a bizevent field.** Doing so copies live secrets/bearer tokens into Grail,
+> where they are retained, queryable, and visible to anyone with bizevent read access.
+> Use non-sensitive correlation identifiers (`X-Correlation-ID`, `X-Request-ID`) instead. If
+> you need to know *whether* a request was authenticated, capture a boolean/derived field
+> (e.g. `auth.present`) via OpenPipeline rather than the raw header value.
 
 ### Response headers
 

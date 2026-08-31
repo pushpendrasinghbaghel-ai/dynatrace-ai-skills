@@ -30,9 +30,15 @@ Never use placeholder values for any of these — always get the real ones from 
 
 ## Phase 1 — dtctl context
 
-1. Confirm the CLI is present: `dtctl version`. If missing, install per platform:
-   - macOS/Linux: `brew install dynatrace-oss/tap/dtctl` or `curl -fsSL https://raw.githubusercontent.com/dynatrace-oss/dtctl/main/install.sh | sh`
-   - Windows: `irm https://raw.githubusercontent.com/dynatrace-oss/dtctl/main/install.ps1 | iex`
+1. Confirm the CLI is present: `dtctl version`. If missing, install per platform (review the
+   installer script before running it — don't blindly pipe a remote script into a shell):
+   - macOS/Linux: `brew install dynatrace-oss/tap/dtctl` (preferred, no remote script execution),
+     or download the versioned release from the
+     [dtctl releases page](https://github.com/dynatrace-oss/dtctl/releases) and verify its
+     checksum before running the bundled install script.
+   - Windows: download the versioned release from the
+     [dtctl releases page](https://github.com/dynatrace-oss/dtctl/releases) and run the
+     installer directly rather than piping a remote script into `iex`.
 
 2. Create the context:
    ```
@@ -74,6 +80,10 @@ If yes:
    - Linux: `xdg-open "https://docs.dynatrace.com/docs/shortlink/dynatrace-mcp-server#prepare-authentication"`
 
    Tell the user: "Follow 'Prepare authentication' in the linked doc. Dynatrace recommends a **Platform token** over an OAuth client, since OAuth-client tokens are short-lived. At minimum the token/client needs `mcp-gateway:servers:invoke` and `mcp-gateway:servers:read`. If they go the OAuth-client route instead (for automatic refresh), it additionally needs `ai:operator:execute`, the `davis-copilot:*` and `storage:*` scope groups, `document:documents:read`, and `davis:analyzers:read` / `davis:analyzers:execute`. Paste the resulting token here when ready." Wait for it — do not proceed with a guessed or reused token unless the user explicitly says to reuse one, and do not assume Phase 1's dtctl token (classic/API-token scoped) is valid for MCP — they are different credential types with different scopes.
+
+   **Security note:** the token is a live credential. Treat it as consumed the instant it's used
+   in step 2 — never write it to a log file, scratch file, commit message, or any location other
+   than `.mcp.json`'s `Authorization` header for this one entry.
 
 2. Read the existing `.mcp.json` at the project root (same directory as this environment's `CLAUDE.md`) and add a new entry keyed by `<nickname>`, preserving every existing entry untouched:
    ```json

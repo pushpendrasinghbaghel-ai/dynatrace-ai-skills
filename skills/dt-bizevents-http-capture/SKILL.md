@@ -194,11 +194,16 @@ See [capture-rule-anatomy.md](./references/capture-rule-anatomy.md) for full fie
     sourceType: request.body
 
 # Request header
-- name: "auth.token"
+- name: "correlation.id"
   source:
-    path: "Authorization"
+    path: "X-Correlation-ID"
     sourceType: request.headers
 ```
+
+> **Never** map `sourceType: request.headers` to `Authorization`, `Cookie`, `X-Api-Key`, or
+> any other credential-bearing header — that copies live secrets/bearer tokens into
+> Grail bizevents. Only capture non-sensitive correlation headers this way.
+
 
 ---
 

@@ -172,6 +172,27 @@ It checks:
 
 For the current completeness boundary, see the analysis linked above.
 
+## Security posture
+
+Skill marketplaces (e.g. [skills.sh](https://skills.sh)) run automated scanners against every
+skill before install, since no one should install a skill blind. This repo is written to score
+clean on those checks:
+
+- No skill pipes a remote script into a shell (`curl ... | sh`, `irm ... | iex`). `dt-tenant-setup`
+  points to versioned, checksum-verifiable installer releases instead.
+- No skill maps a credential-bearing HTTP header (`Authorization`, `Cookie`, `X-Api-Key`) into a
+  captured bizevent field — `dt-bizevents-http-capture` only demonstrates non-sensitive
+  correlation headers and explicitly warns against capturing auth headers.
+- `dt-tenant-setup` treats API tokens as ephemeral: never echoed back in chat, never written
+  anywhere except the single `.mcp.json` entry that needs them, and never logged.
+- Placeholder secrets in examples use `TOKEN`/`YOUR_TOKEN`/`******` style syntax, never a
+  realistic-looking key that could be mistaken for a real credential or trigger a false-positive
+  secret scan.
+
+If you add a new skill, keep to these constraints and avoid introducing install-time remote
+code execution or secret-handling shortcuts — they are the two patterns skill-marketplace risk
+scanners flag hardest.
+
 ## Contributing
 
 These skills came out of real onboarding and troubleshooting sessions. Please keep skill content generic and avoid tenant IDs, customer names, or real API tokens.
