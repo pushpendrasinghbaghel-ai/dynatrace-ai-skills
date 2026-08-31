@@ -13,7 +13,7 @@ For the packaged SE POC persona/wrapper, see the separate [dynatrace-se-poc-agen
 
 ## Installation
 
-### Skills package
+### Skills package (Claude Code, Copilot, Cursor, Gemini CLI — coding surfaces)
 
 ```bash
 npx skills add pushpendrasinghbaghel-ai/dynatrace-ai-skills
@@ -24,6 +24,22 @@ Install one skill if you only need a specific workflow:
 ```bash
 npx skills add pushpendrasinghbaghel-ai/dynatrace-ai-skills --skill dt-tenant-setup
 ```
+
+### Claude plugin (Claude chat, Cowork, and Claude Code)
+
+This repo is also a Claude Code plugin marketplace (`.claude-plugin/marketplace.json`), so it
+installs as a single plugin and its skills become available not just in Claude Code, but also in
+the **Cowork** tab and regular Claude chat — this is what surfaces non-code skills like
+[dynatrace-deck](skills/dynatrace-deck/SKILL.md) outside a coding context:
+
+```shell
+/plugin marketplace add pushpendrasinghbaghel-ai/dynatrace-ai-skills
+/plugin install dynatrace-ai-skills@dynatrace-ai-skills
+```
+
+Then run `/reload-plugins` if prompted. Skills load namespaced, e.g.
+`/dynatrace-ai-skills:dynatrace-deck`, and are also auto-invoked by Claude when relevant to your
+request (no slash command needed) once the plugin is installed.
 
 ### Manual install
 
@@ -131,11 +147,13 @@ so any host surface can filter or list skills without opening a coding context:
 | `code-specific` | Meaning | Skills |
 |---|---|---|
 | `true` | Executes against a tenant/repo (`dtctl`, settings YAML, OpenPipeline, etc.) — expects a coding/CLI-capable surface. | `dt-tenant-setup`, `dtctl-tenant-admin`, `dtctl-dynatrace-operations`, `dt-settings-as-code-factory`, `dt-alert-lifecycle`, `dt-openpipeline-lifecycle`, `dt-bizevents-http-capture`, `dt-custom-log-ingest`, `dt-otel-poc-readiness`, `dt-app-dev-ai-setup` |
-| `false` | Advisory, planning, or content-authoring — no tenant mutation, just reasoning/output (a deck, a plan, a readiness assessment). Should be listed on any general-purpose "ask/collaborate" chat surface (e.g. a Copilot "co-work"/non-coding chat tab, Claude Projects, Gemini Gems), not only IDE/coding surfaces. | `dynatrace-deck`, `dt-poc-data-readiness`, `dt-se-poc-orchestrator` |
+| `false` | Advisory, planning, or content-authoring — no tenant mutation, just reasoning/output (a deck, a plan, a readiness assessment). Should be installed as the Claude plugin (above) so it's available in Claude's **Cowork** tab and chat, not only Claude Code/IDE surfaces; on other platforms, list it on their equivalent non-coding chat/collaboration surface. | `dynatrace-deck`, `dt-poc-data-readiness`, `dt-se-poc-orchestrator` |
 
 If your platform's skill picker only shows skills to coding contexts by default, filter on
 `metadata.code-specific == "false"` to also surface `dynatrace-deck` and the other
-advisory skills in non-coding chat/collaboration surfaces.
+advisory skills in non-coding chat/collaboration surfaces. On Claude specifically, install the
+[Claude plugin](#claude-plugin-claude-chat-cowork-and-claude-code) so the whole pack — including
+`dynatrace-deck` — is available in **Cowork** and chat, not just Claude Code.
 
 ## Harness
 

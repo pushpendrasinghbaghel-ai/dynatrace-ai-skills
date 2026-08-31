@@ -1,0 +1,14 @@
+{
+  "name": "dynatrace-ai-skills",
+  "owner": {
+    "name": "Pushpendra Singh Baghel"
+  },
+  "plugins": [
+    {
+      "name": "dynatrace-ai-skills",
+      "source": "./",
+      "description": "Reusable Dynatrace SE/POC skills for dtctl control-plane operations, settings-as-code, alerting, OpenPipeline, bizevents, OTel readiness, tenant onboarding, and the dynatrace-deck presentation builder.",
+      "version": "1.0.0"
+    }
+  ]
+}

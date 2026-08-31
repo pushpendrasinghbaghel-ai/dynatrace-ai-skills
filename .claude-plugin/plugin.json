@@ -1,0 +1,11 @@
+{
+  "name": "dynatrace-ai-skills",
+  "description": "Reusable Dynatrace SE/POC skills: dtctl control-plane, settings-as-code, alerting, OpenPipeline, bizevents, OTel readiness, tenant setup, and the dynatrace-deck presentation builder. Works in Claude chat, Cowork, and Claude Code.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Pushpendra Singh Baghel"
+  },
+  "homepage": "https://github.com/pushpendrasinghbaghel-ai/dynatrace-ai-skills",
+  "repository": "https://github.com/pushpendrasinghbaghel-ai/dynatrace-ai-skills",
+  "license": "MIT"
+}
