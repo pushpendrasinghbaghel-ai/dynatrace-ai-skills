@@ -2,6 +2,9 @@
 name: dt-app-dev-ai-setup
 description: "Set up AI-assisted Dynatrace app development using the dt-app-mcp MCP server and CLAUDE.md/AGENTS.md/copilot-instructions.md instructions file. Works with both Claude Code and GitHub Copilot (VS Code). Use when: setting up AI for Dynatrace app development, configuring dt-app-mcp, adding CLAUDE.md/AGENTS.md/copilot-instructions.md to a Dynatrace app repo, 'vibe coding' a Dynatrace app, connecting Claude Code, GitHub Copilot, or VS Code to Dynatrace app dev tools, or troubleshooting why the AI assistant isn't using Strato components/DQL knowledge base correctly."
 argument-hint: "AI tool being used (Claude Code, GitHub Copilot/VS Code, VS Code + Dynatrace Apps extension, or other), and whether the app is new or existing"
+metadata:
+  category: dev-tooling-setup
+  code-specific: "true"
 ---
 
 # AI for Dynatrace App Development Setup

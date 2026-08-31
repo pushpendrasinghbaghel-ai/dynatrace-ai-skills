@@ -2,6 +2,9 @@
 name: dt-alert-lifecycle
 description: "Plan, create, validate, and evolve Dynatrace alerting for POCs using settings-as-code and workflow-aware verification. Use when: choosing alert model types, creating detector-related settings, routing notifications, validating signal quality, or making rollback-safe alert changes for customer scenarios."
 argument-hint: "Alert objective and target signal, e.g. 'alert on checkout failure rate spike to Slack' or 'seasonal CPU anomaly notification for prod hosts'"
+metadata:
+  category: tenant-control-plane
+  code-specific: "true"
 ---
 
 # Dynatrace Alert Lifecycle

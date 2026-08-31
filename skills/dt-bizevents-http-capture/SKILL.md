@@ -2,6 +2,9 @@
 name: dt-bizevents-http-capture
 description: "Capture business events from HTTP APIs using Dynatrace OneAgent. Use when: setting up bizevents capture rules, builtin:bizevents.http.incoming, extracting fields from request body, response body, or URL path, configuring event type and provider, fixing empty fields in capture rules, enriching events via OpenPipeline DQL processor, parsing URL path parameters at ingest, enabling IIS log monitoring for correlation, verifying capture rules with DQL, capture rule YAML dtctl deploy."
 argument-hint: "Service name or API path prefix, e.g. 'my-app /api/JobCard'"
+metadata:
+  category: tenant-control-plane
+  code-specific: "true"
 ---
 
 # Dynatrace Bizevents HTTP Capture

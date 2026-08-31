@@ -2,6 +2,9 @@
 name: dt-otel-poc-readiness
 description: "Run Dynatrace POCs in OpenTelemetry-first environments without assuming OneAgent everywhere. Use when: traces, logs, and metrics come from OTel SDKs or collectors; when the customer only has partial OneAgent coverage; or when a POC must verify signal completeness, semantic conventions, and correlation in an OTel pipeline."
 argument-hint: "Service or workload plus OTel context, e.g. 'checkout service via otel collector' or 'mixed OTel traces/logs and no OneAgent on app hosts'"
+metadata:
+  category: tenant-control-plane
+  code-specific: "true"
 ---
 
 # Dynatrace OpenTelemetry POC Readiness

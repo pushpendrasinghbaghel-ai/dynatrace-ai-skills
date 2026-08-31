@@ -2,6 +2,9 @@
 name: dt-poc-data-readiness
 description: "Assess whether a Dynatrace tenant is ready for a POC and map success criteria to available telemetry. Use when: validating logs, traces, metrics, and business events before a demo; checking whether a tenant can support a use case; identifying signal gaps; or planning fallback paths when data is partial."
 argument-hint: "Use case and success criteria, e.g. 'show root cause for failing checkout and alert on error spike' or 'prove order tracking from logs, traces, metrics, and bizevents'"
+metadata:
+  category: poc-planning-advisory
+  code-specific: "false"
 ---
 
 # Dynatrace POC Data Readiness

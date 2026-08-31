@@ -2,6 +2,9 @@
 name: dt-custom-log-ingest
 description: "Handle customer scenarios where logs live on custom paths or are not already flowing to Dynatrace. Use when: application logs are under non-default folders, Windows drive paths, mounted volumes, or bespoke rotation schemes; when log collection must be configured; or when POCs need fallback ingestion through OpenTelemetry Collector instead of OneAgent."
 argument-hint: "Log path, platform, and desired fields, e.g. 'D:\\Acme\\logs\\orders\\*.log on Windows host' or '/srv/app/logs/*.json on Linux via OTel Collector'"
+metadata:
+  category: tenant-control-plane
+  code-specific: "true"
 ---
 
 # Dynatrace Custom Log Ingest

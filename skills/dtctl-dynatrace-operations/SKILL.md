@@ -2,6 +2,9 @@
 name: dtctl-dynatrace-operations
 description: "Operate Dynatrace safely with dtctl for common SE and admin workflows. Use when: onboarding a tenant into dtctl, running DQL queries, exporting or applying settings YAML, promoting config across tenants, checking the current context, or troubleshooting dtctl auth and token-ref issues."
 argument-hint: "Goal and tenant context, e.g. 'run DQL for checkout service on HID tenant' or 'apply alert settings YAML to xqv46417'"
+metadata:
+  category: tenant-control-plane
+  code-specific: "true"
 ---
 
 # Dynatrace dtctl Operations

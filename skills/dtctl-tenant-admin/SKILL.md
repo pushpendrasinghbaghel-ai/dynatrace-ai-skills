@@ -2,6 +2,9 @@
 name: dtctl-tenant-admin
 description: "Manage a Dynatrace tenant end-to-end with dtctl when you need broad control-plane operations: discovery, queries, settings export/import, bulk config changes, drift checks, safe rollback, and workspace-driven repeatability."
 argument-hint: "Tenant nickname or ID and the control-plane goal, e.g. 'audit and update tenant xqv46417' or 'export all alert and workflow settings for HID'"
+metadata:
+  category: tenant-control-plane
+  code-specific: "true"
 ---
 
 # Dynatrace dtctl Tenant Admin

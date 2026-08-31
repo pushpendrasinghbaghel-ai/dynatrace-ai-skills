@@ -2,6 +2,9 @@
 name: dt-tenant-setup
 description: "Onboard a new Dynatrace tenant for both dtctl and MCP in one pass. Use when: adding a new Dynatrace tenant/environment, setting up dtctl context for a customer/tenant, connecting a new tenant to the Dynatrace MCP server, adding an entry to mcp json or .mcp.json, validating tenant token scopes for MCP access, 'add entry for tenant X', 'set up dtctl for <name>', 'connect MCP to <tenant>', or any request to onboard/register a Dynatrace environment by tenant ID and nickname."
 argument-hint: "Tenant nickname and tenant ID, e.g. 'HID xqv46417' — API token optional if the user already has one"
+metadata:
+  category: tenant-control-plane
+  code-specific: "true"
 ---
 
 # Dynatrace Tenant Setup (dtctl + MCP)

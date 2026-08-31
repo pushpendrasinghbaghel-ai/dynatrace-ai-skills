@@ -2,6 +2,9 @@
 name: dt-openpipeline-lifecycle
 description: "Design, deploy, and validate OpenPipeline parsing and enrichment for repeatable POCs. Use when: creating processors, normalizing fields, parsing log lines or payloads, enriching business events, validating transformed fields, or troubleshooting why pipeline-enriched data is missing or malformed."
 argument-hint: "Signal type, source format, and target fields, e.g. 'logs from custom path, extract order_id and dealer_code' or 'API-ingested bizevents, parse req.path into business IDs'"
+metadata:
+  category: tenant-control-plane
+  code-specific: "true"
 ---
 
 # Dynatrace OpenPipeline Lifecycle

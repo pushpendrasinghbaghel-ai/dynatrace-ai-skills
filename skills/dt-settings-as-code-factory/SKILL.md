@@ -2,6 +2,9 @@
 name: dt-settings-as-code-factory
 description: "Create and maintain Dynatrace settings as code for repeatable POCs and rollouts. Use when: generating settings YAML, updating existing settings objects, tracking object IDs, promoting settings across tenants, validating settings deployment with dtctl, or preparing rollback-safe configuration changes."
 argument-hint: "Setting goal, target schema or feature, and scope, e.g. 'workflow notification settings for environment scope' or 'log ingest rule for host group X'"
+metadata:
+  category: tenant-control-plane
+  code-specific: "true"
 ---
 
 # Dynatrace Settings-as-Code Factory

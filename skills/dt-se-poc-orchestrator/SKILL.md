@@ -2,6 +2,9 @@
 name: dt-se-poc-orchestrator
 description: "Run repeatable Dynatrace SE POCs with one orchestrated workflow across setup, data onboarding, dashboards, validation, and handover. Use when: preparing customer/prospect POCs, reducing repetitive SE tasks, standardizing POC quality, or coordinating sub-agents across Claude Code, GitHub Copilot, and Gemini."
 argument-hint: "Customer/prospect name, use case, target environment, and timeline (for example: 'Acme outage analytics POC in 2 weeks on tenant xqv46417')"
+metadata:
+  category: poc-planning-advisory
+  code-specific: "false"
 ---
 
 # Dynatrace SE POC Orchestrator

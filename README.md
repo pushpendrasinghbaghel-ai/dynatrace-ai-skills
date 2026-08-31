@@ -122,6 +122,21 @@ See [dynatrace-coverage-gap-analysis.md](skills/dt-se-poc-orchestrator/reference
 | [dt-app-dev-ai-setup](skills/dt-app-dev-ai-setup/SKILL.md) | Sets up AI-assisted Dynatrace app development. |
 | [dynatrace-deck](skills/dynatrace-deck/SKILL.md) | Packages POC results into a customer-ready deck. |
 
+### Skill categories (`metadata.category` / `metadata.code-specific`)
+
+Every `SKILL.md` in this repo carries a `metadata.category` and `metadata.code-specific`
+field in its frontmatter (per the [agentskills.io spec's optional `metadata` field](https://agentskills.io/specification)),
+so any host surface can filter or list skills without opening a coding context:
+
+| `code-specific` | Meaning | Skills |
+|---|---|---|
+| `true` | Executes against a tenant/repo (`dtctl`, settings YAML, OpenPipeline, etc.) — expects a coding/CLI-capable surface. | `dt-tenant-setup`, `dtctl-tenant-admin`, `dtctl-dynatrace-operations`, `dt-settings-as-code-factory`, `dt-alert-lifecycle`, `dt-openpipeline-lifecycle`, `dt-bizevents-http-capture`, `dt-custom-log-ingest`, `dt-otel-poc-readiness`, `dt-app-dev-ai-setup` |
+| `false` | Advisory, planning, or content-authoring — no tenant mutation, just reasoning/output (a deck, a plan, a readiness assessment). Should be listed on any general-purpose "ask/collaborate" chat surface (e.g. a Copilot "co-work"/non-coding chat tab, Claude Projects, Gemini Gems), not only IDE/coding surfaces. | `dynatrace-deck`, `dt-poc-data-readiness`, `dt-se-poc-orchestrator` |
+
+If your platform's skill picker only shows skills to coding contexts by default, filter on
+`metadata.code-specific == "false"` to also surface `dynatrace-deck` and the other
+advisory skills in non-coding chat/collaboration surfaces.
+
 ## Harness
 
 Run the local skill harness:
