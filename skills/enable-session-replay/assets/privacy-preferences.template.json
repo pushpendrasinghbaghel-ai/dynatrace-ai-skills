@@ -1,0 +1,13 @@
+{
+  "//": "builtin:sessionreplay.web.privacy-preferences. Masking during recording & playback. MASK_ALL is the privacy-safe default (recommended for PII/finance). One object per APPLICATION scope. Include objectId to update, omit to create.",
+  "schemaId": "builtin:sessionreplay.web.privacy-preferences",
+  "scope": "APPLICATION-XXXXXXXXXXXXXXXX",
+  "value": {
+    "enableOptInMode": false,
+    "maskingPresets": {
+      "playbackMaskingPreset": "MASK_ALL",
+      "recordingMaskingPreset": "MASK_ALL"
+    },
+    "urlExclusionPatternList": []
+  }
+}

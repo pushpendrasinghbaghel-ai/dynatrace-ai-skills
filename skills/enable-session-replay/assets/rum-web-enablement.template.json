@@ -1,0 +1,10 @@
+{
+  "//": "builtin:rum.web.enablement. Include objectId to UPDATE an existing object (get it from `dtctl get settings --schema builtin:rum.web.enablement -o json --plain`); OMIT objectId to CREATE. Set scope to `environment` for the default, or `APPLICATION-XXXXXXXXXXXXXXXX` for one app.",
+  "objectId": "REPLACE_OR_REMOVE",
+  "schemaId": "builtin:rum.web.enablement",
+  "scope": "environment",
+  "value": {
+    "rum":           { "enabled": true, "enabledOnGrail": true, "costAndTrafficControl": 100 },
+    "sessionReplay": { "enabled": true, "enabledOnGrail": true, "costAndTrafficControl": 100 }
+  }
+}

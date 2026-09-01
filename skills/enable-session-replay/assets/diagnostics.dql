@@ -1,0 +1,37 @@
+// Session Replay / RUM-on-Grail diagnostics. Run with:
+//   dtctl query -f <file-with-one-query> -o json --plain
+// (dtctl runs one statement per file; copy the query you need.)
+
+// 1) Are RUM sessions in Grail, how many have replays, and how recent?
+//    NOTE: user.sessions uses start_time / end_time, NOT timestamp.
+fetch user.sessions, from:now()-7d
+| summarize sessions=count(),
+            with_replay=countIf(characteristics.has_replay==true),
+            earliest=min(start_time),
+            latest=max(start_time)
+
+// 2) Replay records in Grail, by bucket
+fetch user.replays, from:now()-7d
+| summarize replays=count(), by:{dt.system.bucket}
+
+// 3) Sessions by application (which apps flow to Grail; use a wide window)
+fetch user.sessions, from:now()-4h
+| summarize sessions=count(),
+            with_replay=countIf(characteristics.has_replay==true),
+            by:{frontend.name, dt.rum.application.type}
+| sort sessions desc
+
+// 4) Grail buckets exist and are readable (has_access should be true)
+fetch dt.system.buckets
+
+// 5) Map application entity IDs to names (for per-app settings scopes)
+fetch dt.entity.application
+| fields id, entity.name, entity.detected_name
+| limit 100
+
+// 6) Sample replay-enabled sessions (to hand to the new Session Replay app)
+fetch user.sessions, from:now()-4h
+| filter characteristics.has_replay == true
+| fields start_time, dt.rum.session.id, frontend.name, duration, user_action_count
+| sort start_time desc
+| limit 20

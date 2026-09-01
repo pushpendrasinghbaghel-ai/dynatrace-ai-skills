@@ -1,0 +1,9 @@
+{
+  "//": "builtin:sessionreplay.web.resource-capturing. Captures CSS/images/fonts so replays render faithfully. One object per APPLICATION scope. Include objectId to update, omit to create.",
+  "schemaId": "builtin:sessionreplay.web.resource-capturing",
+  "scope": "APPLICATION-XXXXXXXXXXXXXXXX",
+  "value": {
+    "enableResourceCapturing": true,
+    "resourceCaptureUrlExclusionPatternList": []
+  }
+}

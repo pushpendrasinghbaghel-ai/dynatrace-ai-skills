@@ -130,6 +130,7 @@ See [dynatrace-coverage-gap-analysis.md](skills/dt-se-poc-orchestrator/reference
 | [dt-otel-poc-readiness](skills/dt-otel-poc-readiness/SKILL.md) | Adapts POCs to OpenTelemetry-first environments. |
 | [dt-poc-data-readiness](skills/dt-poc-data-readiness/SKILL.md) | Checks whether telemetry is ready for the requested POC success criteria. |
 | [dt-se-poc-orchestrator](skills/dt-se-poc-orchestrator/SKILL.md) | Orchestrates repeatable SE POCs end-to-end with token-efficient execution patterns. |
+| [enable-session-replay](skills/enable-session-replay/SKILL.md) | Diagnoses and enables Session Replay / RUM on Grail for the new Gen3 apps (replays visible in classic but not the new Sessions app); ships an idempotent diagnose/enable/verify harness (PowerShell + bash). |
 
 ### Other local skills
 
@@ -146,7 +147,7 @@ so any host surface can filter or list skills without opening a coding context:
 
 | `code-specific` | Meaning | Skills |
 |---|---|---|
-| `true` | Executes against a tenant/repo (`dtctl`, settings YAML, OpenPipeline, etc.) — expects a coding/CLI-capable surface. | `dt-tenant-setup`, `dtctl-tenant-admin`, `dtctl-dynatrace-operations`, `dt-settings-as-code-factory`, `dt-alert-lifecycle`, `dt-openpipeline-lifecycle`, `dt-bizevents-http-capture`, `dt-custom-log-ingest`, `dt-otel-poc-readiness`, `dt-app-dev-ai-setup` |
+| `true` | Executes against a tenant/repo (`dtctl`, settings YAML, OpenPipeline, etc.) — expects a coding/CLI-capable surface. | `dt-tenant-setup`, `dtctl-tenant-admin`, `dtctl-dynatrace-operations`, `dt-settings-as-code-factory`, `dt-alert-lifecycle`, `dt-openpipeline-lifecycle`, `dt-bizevents-http-capture`, `dt-custom-log-ingest`, `dt-otel-poc-readiness`, `dt-app-dev-ai-setup`, `enable-session-replay` |
 | `false` | Advisory, planning, or content-authoring — no tenant mutation, just reasoning/output (a deck, a plan, a readiness assessment). Should be installed as the Claude plugin (above) so it's available in Claude's **Cowork** tab and chat, not only Claude Code/IDE surfaces; on other platforms, list it on their equivalent non-coding chat/collaboration surface. | `dynatrace-deck`, `dt-poc-data-readiness`, `dt-se-poc-orchestrator` |
 
 If your platform's skill picker only shows skills to coding contexts by default, filter on
